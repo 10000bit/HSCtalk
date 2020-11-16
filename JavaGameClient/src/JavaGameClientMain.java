@@ -25,6 +25,7 @@ public class JavaGameClientMain extends JFrame {
 	private JTextField txtPortNumber;
 	private int hi;
 
+	
 	/**
 	 * Launch the application.
 	 */
