@@ -75,7 +75,7 @@ public class JavaGameClientView extends JFrame {
 	private FileDialog fd;
 	private JButton imgBtn;
 
-	JPanel panel;
+	static JPanel panel;
 	private JLabel lblMouseEvent;
 	private Graphics gc;
 	private int pen_size = 2; // minimum 2
