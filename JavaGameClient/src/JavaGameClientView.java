@@ -71,7 +71,7 @@ public class JavaGameClientView extends JFrame {
 	private ObjectOutputStream oos;
 
 	private JLabel lblUserName;
-	private JTextPane textArea;
+	static JTextPane textArea;
 	private JTextPane textArea_1;
 
 
@@ -79,7 +79,7 @@ public class JavaGameClientView extends JFrame {
 	private FileDialog fd;
 	private JButton imgBtn;
 
-	static JPanel panel;
+	JPanel panel;
 	private JLabel lblMouseEvent;
 	private Graphics gc;
 	private int pen_size = 2; // minimum 2
@@ -553,9 +553,9 @@ public class JavaGameClientView extends JFrame {
 	{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
-			javaClientSetting view = new javaClientSetting();
-			setVisible(false);
+			javaClientSetting setting = new javaClientSetting();
+			setVisible(true);
+			setting.setVisible(true);
 		}
 	}
 }

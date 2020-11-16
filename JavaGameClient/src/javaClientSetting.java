@@ -16,6 +16,7 @@ public class javaClientSetting extends JFrame{
 	private JColorChooser cc;
 	
 	public javaClientSetting() {
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 254, 321);
 		contentPane = new JPanel();
@@ -45,8 +46,8 @@ public class javaClientSetting extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 
 			Color newColor = JColorChooser.showDialog(cc,"Color Chooser",javaClientSetting.this.getBackground());
-			JavaGameClientView.panel.setBackground(newColor);
-			JavaGameClientView.panel.repaint();
+			JavaGameClientView.textArea.setBackground(newColor);
+			JavaGameClientView.textArea.repaint();
 		}
 		
 	}
