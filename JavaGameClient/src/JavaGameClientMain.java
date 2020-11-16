@@ -1,5 +1,5 @@
 // JavaObjClient.java
-// ObjecStream ªÁøÎ«œ¥¬ √§∆√ Client
+// ObjecStream ÏÇ¨Ïö©ÌïòÎäî Ï±ÑÌåÖ Client
 
 import java.awt.EventQueue;
 
@@ -20,9 +20,14 @@ public class JavaGameClientMain extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField txtUserName;
-	private JTextField txtIpAddress;
-	private JTextField txtPortNumber;
+	
+	private JButton star;
+	private JButton logo;
+	private JTextField inputID;
+	private JTextField inputpassword;
+	private JTextField inputtitle;
+	private JButton title;
+	
 	
 	
 	/**
@@ -46,12 +51,15 @@ public class JavaGameClientMain extends JFrame {
 	 */
 	public JavaGameClientMain() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 254, 321);
+		setBounds(100, 100, 400, 400);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		
+		
+		/*
 		JLabel lblNewLabel = new JLabel("User Name");
 		lblNewLabel.setBounds(12, 39, 82, 33);
 		contentPane.add(lblNewLabel);
@@ -83,24 +91,74 @@ public class JavaGameClientMain extends JFrame {
 		txtPortNumber.setColumns(10);
 		txtPortNumber.setBounds(101, 163, 116, 33);
 		contentPane.add(txtPortNumber);
+		*/
+		
+		star = new JButton("üåü");
+		star.setBounds(183, 57, 44, 40);
+		star.setBorderPainted(false);
+		star.setContentAreaFilled(false);
+		star.setFocusPainted(false);
+		contentPane.add(star);
+		
+		logo = new JButton("HSC TALK");
+		logo.setBounds(141, 107, 130, 30);
+		logo.setBorderPainted(false);
+		logo.setContentAreaFilled(false);
+		logo.setFocusPainted(false);
+		contentPane.add(logo);
+		
+		inputID = new JTextField();
+		inputID.setColumns(10);
+		inputID.setBounds(165, 151, 153, 30);
+		contentPane.add(inputID);
+		
+		inputpassword = new JTextField();
+		inputpassword.setColumns(10);
+		inputpassword.setBounds(165, 191, 153, 30);
+		contentPane.add(inputpassword);
+		
+		inputtitle = new JTextField();
+		inputtitle.setColumns(10);
+		inputtitle.setBounds(165, 231, 153, 30);
+		contentPane.add(inputtitle);
+		
+		JButton ID = new JButton("ID");
+		ID.setFocusPainted(false);
+		ID.setContentAreaFilled(false);
+		ID.setBorderPainted(false);
+		ID.setBounds(74, 150, 81, 30);
+		contentPane.add(ID);
+		
+		JButton password = new JButton("password");
+		password.setFocusPainted(false);
+		password.setContentAreaFilled(false);
+		password.setBorderPainted(false);
+		password.setBounds(58, 190, 97, 30);
+		contentPane.add(password);
+		
+		title = new JButton("Ï±ÑÌåÖÎ∞©Ïù¥Î¶Ñ");
+		title.setFocusPainted(false);
+		title.setContentAreaFilled(false);
+		title.setBorderPainted(false);
+		title.setBounds(58, 230, 97, 30);
+		contentPane.add(title);
 		
 		JButton btnConnect = new JButton("Connect");
-		btnConnect.setBounds(12, 223, 205, 38);
+		btnConnect.setBounds(96, 288, 205, 38);
 		contentPane.add(btnConnect);
 		Myaction action = new Myaction();
 		btnConnect.addActionListener(action);
-		txtUserName.addActionListener(action);
-		txtIpAddress.addActionListener(action);
-		txtPortNumber.addActionListener(action);
 	}
-	class Myaction implements ActionListener // ≥ª∫Œ≈¨∑°Ω∫∑Œ æ◊º« ¿Ã∫•∆Æ √≥∏Æ ≈¨∑°Ω∫
+	
+	class Myaction implements ActionListener // ÎÇ¥Î∂ÄÌÅ¥ÎûòÏä§Î°ú Ïï°ÏÖò Ïù¥Î≤§Ìä∏ Ï≤òÎ¶¨ ÌÅ¥ÎûòÏä§
 	{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			String username = txtUserName.getText().trim();
-			String ip_addr = txtIpAddress.getText().trim();
-			String port_no = txtPortNumber.getText().trim();
-			JavaGameClientView view = new JavaGameClientView(username, ip_addr, port_no);
+			String username = inputID.getText().trim();
+			String ip_addr = "127.0.0.1";
+			String port_no = "30000";
+			String title = inputtitle.getText().trim();
+			JavaGameClientView view = new JavaGameClientView(username, ip_addr, port_no, title);
 			setVisible(false);
 		}
 	}

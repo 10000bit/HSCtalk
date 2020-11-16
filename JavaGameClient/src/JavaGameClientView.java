@@ -88,7 +88,8 @@ public class JavaGameClientView extends JFrame {
 	 * Create the frame.
 	 * @throws BadLocationException 
 	 */
-	public JavaGameClientView(String username, String ip_addr, String port_no)  {
+	public JavaGameClientView(String username, String ip_addr, String port_no, String title)  {
+		setTitle(title);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 630);
@@ -115,8 +116,6 @@ public class JavaGameClientView extends JFrame {
 		textArea_1.setEditable(true);
 		textArea_1.setFont(new Font("굴림체", Font.PLAIN, 14));
 		scrollPane_1.setViewportView(textArea_1);
-		
-
 		
 		btnSetting = new JButton("⚙");
 		btnSetting.setBounds(288, 10, 50, 50);
