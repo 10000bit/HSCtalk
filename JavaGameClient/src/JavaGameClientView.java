@@ -71,7 +71,7 @@ public class JavaGameClientView extends JFrame {
 	private ObjectOutputStream oos;
 
 	private JLabel lblUserName;
-	private JTextPane textArea;
+	static JTextPane textArea;
 	private JTextPane textArea_1;
 
 
@@ -79,7 +79,7 @@ public class JavaGameClientView extends JFrame {
 	private FileDialog fd;
 	private JButton imgBtn;
 
-	static JPanel panel;
+	JPanel panel;
 	private JLabel lblMouseEvent;
 	private Graphics gc;
 	private int pen_size = 2; // minimum 2
@@ -88,8 +88,13 @@ public class JavaGameClientView extends JFrame {
 	 * Create the frame.
 	 * @throws BadLocationException 
 	 */
+<<<<<<< HEAD
 	public JavaGameClientView(String username, String ip_addr, String port_no, String title)  {
 		setTitle(title);
+=======
+	public JavaGameClientView(String username, String ip_addr, String port_no)  {
+		setTitle("HSC TALK");
+>>>>>>> branch 'master' of https://github.com/equipoida/HSCtalk
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 630);
@@ -552,9 +557,9 @@ public class JavaGameClientView extends JFrame {
 	{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
-			javaClientSetting view = new javaClientSetting();
-			setVisible(false);
+			javaClientSetting setting = new javaClientSetting();
+			setVisible(true);
+			setting.setVisible(true);
 		}
 	}
 }
