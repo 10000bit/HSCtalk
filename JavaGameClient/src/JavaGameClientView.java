@@ -48,6 +48,7 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+
 public class JavaGameClientView extends JFrame {
 	/**
 	 * 
@@ -120,6 +121,8 @@ public class JavaGameClientView extends JFrame {
 		btnSetting = new JButton("⚙");
 		btnSetting.setBounds(288, 10, 50, 50);
 		contentPane.add(btnSetting);
+		Myaction actionSetting = new Myaction();
+		btnSetting.addActionListener(actionSetting);
 
 		txtInput = new JTextField();
 		txtInput.setBounds(74, 489, 180, 40);
@@ -543,6 +546,16 @@ public class JavaGameClientView extends JFrame {
 		} catch (IOException e) {
 			// textArea.append("메세지 송신 에러!!\n");
 			AppendText("SendObject Error");
+		}
+	}
+	
+	class Myaction implements ActionListener // 내부클래스로 액션 이벤트 처리 클래스
+	{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			javaClientSetting view = new javaClientSetting();
+			setVisible(false);
 		}
 	}
 }

@@ -32,6 +32,8 @@ public class javaClientSetting extends JFrame{
 		btn_1.setBounds(59, 94, 146, 33);
 		contentPane.add(btn_1);
 		BackgroundAction backaction = new BackgroundAction();
+		btn_1.addActionListener(backaction);
+
 		
 		JButton btn_2 = new JButton("채팅방 이름");
 		btn_2.setBounds(59, 163, 146, 33);
