@@ -56,6 +56,7 @@ public class JavaGameClientView extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtInput;
 	private String UserName;
+	private JButton btnSetting;
 	private JButton btnEmo;
 	private JButton btnSend;
 	private static final int BUF_LEN = 128; // Windows 처럼 BUF_LEN 을 정의
@@ -69,8 +70,9 @@ public class JavaGameClientView extends JFrame {
 	private ObjectOutputStream oos;
 
 	private JLabel lblUserName;
-	// private JTextArea textArea;
 	private JTextPane textArea;
+	private JTextPane textArea_1;
+
 
 	private Frame frame;
 	private FileDialog fd;
@@ -95,13 +97,29 @@ public class JavaGameClientView extends JFrame {
 		contentPane.setLayout(null);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 10, 352, 471);
+		scrollPane.setBounds(12, 10, 266, 471);
 		contentPane.add(scrollPane);
 
 		textArea = new JTextPane();
 		textArea.setEditable(true);
 		textArea.setFont(new Font("굴림체", Font.PLAIN, 14));
 		scrollPane.setViewportView(textArea);
+		
+
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(283, 70, 80, 395);
+		contentPane.add(scrollPane_1);
+		
+		textArea_1 = new JTextPane();
+		textArea_1.setEditable(true);
+		textArea_1.setFont(new Font("굴림체", Font.PLAIN, 14));
+		scrollPane_1.setViewportView(textArea_1);
+		
+
+		
+		btnSetting = new JButton("⚙");
+		btnSetting.setBounds(288, 10, 50, 50);
+		contentPane.add(btnSetting);
 
 		txtInput = new JTextField();
 		txtInput.setBounds(74, 489, 180, 40);
@@ -164,7 +182,7 @@ public class JavaGameClientView extends JFrame {
 		lblMouseEvent.setBackground(Color.WHITE);
 		lblMouseEvent.setBounds(376, 539, 400, 40);
 		contentPane.add(lblMouseEvent);
-
+		
 		try {
 			socket = new Socket(ip_addr, Integer.parseInt(port_no));
 //			is = socket.getInputStream();
