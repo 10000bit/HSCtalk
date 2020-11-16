@@ -89,6 +89,7 @@ public class JavaGameClientView extends JFrame {
 	 * @throws BadLocationException 
 	 */
 	public JavaGameClientView(String username, String ip_addr, String port_no)  {
+		setTitle("HSC TALK");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 630);
