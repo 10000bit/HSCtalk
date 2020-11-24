@@ -20,6 +20,8 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -213,7 +215,10 @@ public class JavaGameClientView extends JFrame {
 		public void run() {
 			while (true) {
 				try {
-
+					SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+					Date time= new Date();
+					String time1= format.format(time);
+					
 					Object obcm = null;
 					String msg = null;
 					ChatMsg cm;
@@ -231,6 +236,7 @@ public class JavaGameClientView extends JFrame {
 						msg = String.format("[%s]\n%s", cm.UserName, cm.data);
 					} else
 						continue;
+					msg=msg+"\n"+time1;
 					switch (cm.code) {
 
 					case "200": // chat message
@@ -421,10 +427,8 @@ public class JavaGameClientView extends JFrame {
 
 	// list 출력
 	public void AppendList(String msg) {
-
 		
 		  textList.selectAll(); textList.replaceSelection("");
-		
 
 		msg = msg.trim();
 		int len = textList.getDocument().getLength();

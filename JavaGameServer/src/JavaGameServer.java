@@ -22,7 +22,9 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
@@ -202,8 +204,6 @@ public class JavaGameServer extends JFrame {
 				UserService user = (UserService) user_vc.elementAt(i);
 				if(list.contains(user.UserName)==false)
 					list.add(user.UserName);
-
-				// WriteList(user.UserName + "\n");
 			}
 
 			WriteAllList(list);
@@ -277,7 +277,6 @@ public class JavaGameServer extends JFrame {
 		// UserService Thread가 담당하는 Client 에게 1:1 전송
 		public void WriteOne(String msg) {
 			
-
 			try {
 				// dos.writeUTF(msg);
 //				byte[] bb;
