@@ -570,15 +570,13 @@ public class JavaGameClientView extends JFrame {
 			AppendText("SendObject Error");
 		}
 	}
-<<<<<<< HEAD
+
 	
 	public static void getTxtInput(String emo) {
 		txtInput.setText(emo);
 		
 	}
 
-=======
->>>>>>> branch 'master' of https://github.com/equipoida/HSCtalk
 
 	class Myaction implements ActionListener // 내부클래스로 액션 이벤트 처리 클래스
 	{
