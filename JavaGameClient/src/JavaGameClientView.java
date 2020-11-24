@@ -48,7 +48,6 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
-
 public class JavaGameClientView extends JFrame {
 	/**
 	 * 
@@ -74,7 +73,6 @@ public class JavaGameClientView extends JFrame {
 	static JTextPane textArea;
 	private JTextPane textList;
 
-
 	private Frame frame;
 	private FileDialog fd;
 	private JButton imgBtn;
@@ -86,12 +84,11 @@ public class JavaGameClientView extends JFrame {
 
 	/**
 	 * Create the frame.
-	 * @throws BadLocationException 
+	 * 
+	 * @throws BadLocationException
 	 */
 
-
-		
-	public JavaGameClientView(String username, String ip_addr, String port_no, String title)  {
+	public JavaGameClientView(String username, String ip_addr, String port_no, String title) {
 		setTitle(title);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -109,17 +106,16 @@ public class JavaGameClientView extends JFrame {
 		textArea.setEditable(true);
 		textArea.setFont(new Font("굴림체", Font.PLAIN, 14));
 		scrollPane.setViewportView(textArea);
-		
 
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(283, 70, 80, 395);
 		contentPane.add(scrollPane_1);
-		
+
 		textList = new JTextPane();
 		textList.setEditable(true);
 		textList.setFont(new Font("굴림체", Font.PLAIN, 14));
 		scrollPane_1.setViewportView(textList);
-		
+
 		btnSetting = new JButton("⚙");
 		btnSetting.setBounds(288, 10, 50, 50);
 		contentPane.add(btnSetting);
@@ -130,12 +126,12 @@ public class JavaGameClientView extends JFrame {
 		txtInput.setBounds(74, 489, 180, 40);
 		contentPane.add(txtInput);
 		txtInput.setColumns(10);
-		
+
 		btnEmo = new JButton("🙂");
 		btnEmo.setBounds(245, 489, 50, 40);
 		btnEmo.setBorderPainted(false);
 		btnEmo.setContentAreaFilled(false);
-		//btnEmo.setFocusPainted(false);
+		// btnEmo.setFocusPainted(false);
 		contentPane.add(btnEmo);
 
 		btnSend = new JButton("Send");
@@ -211,11 +207,10 @@ public class JavaGameClientView extends JFrame {
 			ImageSendAction action2 = new ImageSendAction();
 			imgBtn.addActionListener(action2);
 			MyMouseEvent mouse = new MyMouseEvent();
-			//panel.addMouseMotionListener(mouse);
-			//panel.addMouseListener(mouse);
+			// panel.addMouseMotionListener(mouse);
+			// panel.addMouseListener(mouse);
 			MyMouseWheelEvent wheel = new MyMouseWheelEvent();
-			//panel.addMouseWheelListener(wheel);
-
+			// panel.addMouseWheelListener(wheel);
 
 		} catch (NumberFormatException | IOException e) {
 			// TODO Auto-generated catch block
@@ -249,11 +244,12 @@ public class JavaGameClientView extends JFrame {
 					} else
 						continue;
 					switch (cm.code) {
-					
+
 					case "200": // chat message
+
 						if (cm.UserName.equals(UserName))
 							AppendTextR(msg); // 내 메세지는 우측에
-							
+
 						else
 							AppendText(msg);
 						break;
@@ -267,7 +263,8 @@ public class JavaGameClientView extends JFrame {
 					case "500": // Mouse Event 수신
 						DoMouseEvent(cm);
 						break;
-					case "700": //list
+					case "700": // list
+
 						AppendList(msg);
 						break;
 					}
@@ -297,7 +294,7 @@ public class JavaGameClientView extends JFrame {
 			return;
 		c = new Color(255, 0, 0); // 다른 사람 것은 Red
 		gc.setColor(c);
-		gc.fillOval(cm.mouse_e.getX() - pen_size/2, cm.mouse_e.getY() - cm.pen_size/2, cm.pen_size, cm.pen_size);
+		gc.fillOval(cm.mouse_e.getX() - pen_size / 2, cm.mouse_e.getY() - cm.pen_size / 2, cm.pen_size, cm.pen_size);
 	}
 
 	public void SendMouseEvent(MouseEvent e) {
@@ -318,61 +315,69 @@ public class JavaGameClientView extends JFrame {
 				if (pen_size > 2)
 					pen_size--;
 			}
-			//lblMouseEvent.setText("mouseWheelMoved Rotation=" + e.getWheelRotation() 
-				//+ " pen_size = " + pen_size + " " + e.getX() + "," + e.getY());
+			// lblMouseEvent.setText("mouseWheelMoved Rotation=" + e.getWheelRotation()
+			// + " pen_size = " + pen_size + " " + e.getX() + "," + e.getY());
 
 		}
-		
+
 	}
+
 	// Mouse Event Handler
 	class MyMouseEvent implements MouseListener, MouseMotionListener {
 		@Override
 		public void mouseDragged(MouseEvent e) {
-			//lblMouseEvent.setText(e.getButton() + " mouseDragged " + e.getX() + "," + e.getY());// 좌표출력가능
-			Color c = new Color(0,0,255);
+			// lblMouseEvent.setText(e.getButton() + " mouseDragged " + e.getX() + "," +
+			// e.getY());// 좌표출력가능
+			Color c = new Color(0, 0, 255);
 			gc.setColor(c);
-			gc.fillOval(e.getX()-pen_size/2, e.getY()-pen_size/2, pen_size, pen_size);
-			
+			gc.fillOval(e.getX() - pen_size / 2, e.getY() - pen_size / 2, pen_size, pen_size);
+
 			SendMouseEvent(e);
 		}
 
 		@Override
 		public void mouseMoved(MouseEvent e) {
-			//lblMouseEvent.setText(e.getButton() + " mouseMoved " + e.getX() + "," + e.getY());
+			// lblMouseEvent.setText(e.getButton() + " mouseMoved " + e.getX() + "," +
+			// e.getY());
 		}
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			//lblMouseEvent.setText(e.getButton() + " mouseClicked " + e.getX() + "," + e.getY());
-			Color c = new Color(0,0,255);
+			// lblMouseEvent.setText(e.getButton() + " mouseClicked " + e.getX() + "," +
+			// e.getY());
+			Color c = new Color(0, 0, 255);
 			gc.setColor(c);
-			gc.fillOval(e.getX()-pen_size/2, e.getY()-pen_size/2, pen_size, pen_size);
+			gc.fillOval(e.getX() - pen_size / 2, e.getY() - pen_size / 2, pen_size, pen_size);
 			SendMouseEvent(e);
 		}
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			//lblMouseEvent.setText(e.getButton() + " mouseEntered " + e.getX() + "," + e.getY());
+			// lblMouseEvent.setText(e.getButton() + " mouseEntered " + e.getX() + "," +
+			// e.getY());
 			// panel.setBackground(Color.YELLOW);
 
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-			//lblMouseEvent.setText(e.getButton() + " mouseExited " + e.getX() + "," + e.getY());
+			// lblMouseEvent.setText(e.getButton() + " mouseExited " + e.getX() + "," +
+			// e.getY());
 			// panel.setBackground(Color.CYAN);
 
 		}
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			//lblMouseEvent.setText(e.getButton() + " mousePressed " + e.getX() + "," + e.getY());
+			// lblMouseEvent.setText(e.getButton() + " mousePressed " + e.getX() + "," +
+			// e.getY());
 
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			//lblMouseEvent.setText(e.getButton() + " mouseReleased " + e.getX() + "," + e.getY());
+			// lblMouseEvent.setText(e.getButton() + " mouseReleased " + e.getX() + "," +
+			// e.getY());
 			// 드래그중 멈출시 보임
 
 		}
@@ -426,27 +431,28 @@ public class JavaGameClientView extends JFrame {
 		textArea.insertIcon(icon);
 	}
 
-	//list 출력
+	// list 출력
 	public void AppendList(String msg) {
+
 		
-		/*
-		 * textList.selectAll(); textList.replaceSelection("");
-		 */
-		 
+		  textList.selectAll(); textList.replaceSelection("");
+		
+
 		msg = msg.trim();
 		int len = textList.getDocument().getLength();
 		StyledDocument doc = textList.getStyledDocument();
 		SimpleAttributeSet left = new SimpleAttributeSet();
 		StyleConstants.setAlignment(left, StyleConstants.ALIGN_LEFT);
 		StyleConstants.setForeground(left, Color.BLACK);
-	    doc.setParagraphAttributes(doc.getLength(), 1, left, false);
+		doc.setParagraphAttributes(doc.getLength(), 1, left, false);
 		try {
-			doc.insertString(doc.getLength(), msg+"\n", left );
+			doc.insertString(doc.getLength(), msg + "\n", left);
 		} catch (BadLocationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+
 	// 화면에 출력
 	public void AppendText(String msg) {
 		// textArea.append(msg + "\n");
@@ -454,38 +460,39 @@ public class JavaGameClientView extends JFrame {
 		msg = msg.trim(); // 앞뒤 blank와 \n을 제거한다.
 		int len = textArea.getDocument().getLength();
 		// 끝으로 이동
-		//textArea.setCaretPosition(len);
-		//textArea.replaceSelection(msg + "\n");
-		
+		// textArea.setCaretPosition(len);
+		// textArea.replaceSelection(msg + "\n");
+
 		StyledDocument doc = textArea.getStyledDocument();
 		SimpleAttributeSet left = new SimpleAttributeSet();
 		StyleConstants.setAlignment(left, StyleConstants.ALIGN_LEFT);
 		StyleConstants.setForeground(left, Color.BLACK);
-	    doc.setParagraphAttributes(doc.getLength(), 1, left, false);
+		doc.setParagraphAttributes(doc.getLength(), 1, left, false);
 		try {
-			doc.insertString(doc.getLength(), msg+"\n", left );
+			doc.insertString(doc.getLength(), msg + "\n", left);
 		} catch (BadLocationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	}
+
 	// 화면 우측에 출력
 	public void AppendTextR(String msg) {
-		msg = msg.trim(); // 앞뒤 blank와 \n을 제거한다.	
+		msg = msg.trim(); // 앞뒤 blank와 \n을 제거한다.
 		StyledDocument doc = textArea.getStyledDocument();
 		SimpleAttributeSet right = new SimpleAttributeSet();
 		StyleConstants.setAlignment(right, StyleConstants.ALIGN_RIGHT);
-		StyleConstants.setForeground(right, Color.BLUE);	
-	    doc.setParagraphAttributes(doc.getLength(), 1, right, false);
+		StyleConstants.setForeground(right, Color.BLUE);
+		doc.setParagraphAttributes(doc.getLength(), 1, right, false);
 		try {
-			doc.insertString(doc.getLength(),msg+"\n", right );
+			doc.insertString(doc.getLength(), msg + "\n", right);
 		} catch (BadLocationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void AppendImage(ImageIcon ori_icon) {
 		int len = textArea.getDocument().getLength();
 		textArea.setCaretPosition(len); // place caret at the end (with no selection)
@@ -519,7 +526,7 @@ public class JavaGameClientView extends JFrame {
 		textArea.replaceSelection("\n");
 		// ImageViewAction viewaction = new ImageViewAction();
 		// new_icon.addActionListener(viewaction); // 내부클래스로 액션 리스너를 상속받은 클래스로
-		//gc.drawImage(ori_img, 0, 0, panel.getWidth(), panel.getHeight(), this);
+		// gc.drawImage(ori_img, 0, 0, panel.getWidth(), panel.getHeight(), this);
 	}
 
 	// Windows 처럼 message 제외한 나머지 부분은 NULL 로 만들기 위한 함수
@@ -575,7 +582,7 @@ public class JavaGameClientView extends JFrame {
 			AppendText("SendObject Error");
 		}
 	}
-	
+
 	class Myaction implements ActionListener // 내부클래스로 액션 이벤트 처리 클래스
 	{
 		@Override
