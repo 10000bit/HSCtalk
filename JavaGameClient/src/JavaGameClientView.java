@@ -55,7 +55,7 @@ public class JavaGameClientView extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField txtInput;
+	private static JTextField txtInput;
 	private String UserName;
 	private JButton btnSetting;
 	private JButton btnEmo;
@@ -137,6 +137,8 @@ public class JavaGameClientView extends JFrame {
 		btnEmo.setContentAreaFilled(false);
 		//btnEmo.setFocusPainted(false);
 		contentPane.add(btnEmo);
+		Myaction2 actionEmoticon = new Myaction2();
+		btnEmo.addActionListener(actionEmoticon);
 
 		btnSend = new JButton("Send");
 		btnSend.setFont(new Font("굴림", Font.PLAIN, 14));
@@ -550,6 +552,12 @@ public class JavaGameClientView extends JFrame {
 		}
 	}
 	
+	public static void getTxtInput(String emo) {
+		txtInput.setText(emo);
+		
+	}
+
+
 	class Myaction implements ActionListener // 내부클래스로 액션 이벤트 처리 클래스
 	{
 		@Override
@@ -559,4 +567,15 @@ public class JavaGameClientView extends JFrame {
 			setting.setVisible(true);
 		}
 	}
+	
+	class Myaction2 implements ActionListener // 내부클래스로 액션 이벤트 처리 클래스
+	{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			emoticon emo = new emoticon();
+			emo.setVisible(true);
+			setVisible(true);
+		}
+	}
+	
 }
