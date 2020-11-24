@@ -72,7 +72,7 @@ public class JavaGameClientView extends JFrame {
 
 	private JLabel lblUserName;
 	static JTextPane textArea;
-	private JTextPane textlist;
+	private JTextPane textList;
 
 
 	private Frame frame;
@@ -115,10 +115,10 @@ public class JavaGameClientView extends JFrame {
 		scrollPane_1.setBounds(283, 70, 80, 395);
 		contentPane.add(scrollPane_1);
 		
-		textlist = new JTextPane();
-		textlist.setEditable(true);
-		textlist.setFont(new Font("굴림체", Font.PLAIN, 14));
-		scrollPane_1.setViewportView(textlist);
+		textList = new JTextPane();
+		textList.setEditable(true);
+		textList.setFont(new Font("굴림체", Font.PLAIN, 14));
+		scrollPane_1.setViewportView(textList);
 		
 		btnSetting = new JButton("⚙");
 		btnSetting.setBounds(288, 10, 50, 50);
@@ -249,9 +249,11 @@ public class JavaGameClientView extends JFrame {
 					} else
 						continue;
 					switch (cm.code) {
+					
 					case "200": // chat message
 						if (cm.UserName.equals(UserName))
 							AppendTextR(msg); // 내 메세지는 우측에
+							
 						else
 							AppendText(msg);
 						break;
@@ -264,6 +266,9 @@ public class JavaGameClientView extends JFrame {
 						break;
 					case "500": // Mouse Event 수신
 						DoMouseEvent(cm);
+						break;
+					case "700": //list
+						AppendList(msg);
 						break;
 					}
 				} catch (IOException e) {
@@ -421,6 +426,27 @@ public class JavaGameClientView extends JFrame {
 		textArea.insertIcon(icon);
 	}
 
+	//list 출력
+	public void AppendList(String msg) {
+		
+		/*
+		 * textList.selectAll(); textList.replaceSelection("");
+		 */
+		 
+		msg = msg.trim();
+		int len = textList.getDocument().getLength();
+		StyledDocument doc = textList.getStyledDocument();
+		SimpleAttributeSet left = new SimpleAttributeSet();
+		StyleConstants.setAlignment(left, StyleConstants.ALIGN_LEFT);
+		StyleConstants.setForeground(left, Color.BLACK);
+	    doc.setParagraphAttributes(doc.getLength(), 1, left, false);
+		try {
+			doc.insertString(doc.getLength(), msg+"\n", left );
+		} catch (BadLocationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	// 화면에 출력
 	public void AppendText(String msg) {
 		// textArea.append(msg + "\n");

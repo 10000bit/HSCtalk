@@ -135,7 +135,7 @@ public class JavaGameServer extends JFrame {
 		textArea.append(str + "\n");
 		textArea.setCaretPosition(textArea.getText().length());
 	}
-
+	
 	public void AppendObject(ChatMsg msg) {
 		// textArea.append("사용자로부터 들어온 object : " + str+"\n");
 		textArea.append("code = " + msg.code + "\n");
@@ -196,6 +196,12 @@ public class JavaGameServer extends JFrame {
 			WriteOne(UserName + "님 환영합니다.\n"); // 연결된 사용자에게 정상접속을 알림
 			String msg = "[" + UserName + "]님이 입장 하였습니다.\n";
 			WriteOthers(msg); // 아직 user_vc에 새로 입장한 user는 포함되지 않았다.
+			for (int i = 0; i < user_vc.size(); i++) {
+				UserService user = (UserService) user_vc.elementAt(i);
+				WriteList(user.UserName + "\n");
+			}
+		 
+			
 		}
 
 		public void Logout() {
@@ -203,10 +209,15 @@ public class JavaGameServer extends JFrame {
 			UserVec.removeElement(this); // Logout한 현재 객체를 벡터에서 지운다
 			WriteAll(msg); // 나를 제외한 다른 User들에게 전송
 			AppendText("사용자 " + "[" + UserName + "] 퇴장. 현재 참가자 수 " + UserVec.size());
+			for (int i = 0; i < user_vc.size(); i++) {
+				UserService user = (UserService) user_vc.elementAt(i);
+				WriteList(user.UserName + "\n");
+			}
 		}
 
 		// 모든 User들에게 방송. 각각의 UserService Thread의 WriteONe() 을 호출한다.
 		public void WriteAll(String str) {
+			
 			for (int i = 0; i < user_vc.size(); i++) {
 				UserService user = (UserService) user_vc.elementAt(i);
 				if (user.UserStatus == "O")
@@ -221,7 +232,8 @@ public class JavaGameServer extends JFrame {
 					user.WriteOneObject(ob);
 			}
 		}
-
+		
+		
 		// 나를 제외한 User들에게 방송. 각각의 UserService Thread의 WriteONe() 을 호출한다.
 		public void WriteOthers(String str) {
 			for (int i = 0; i < user_vc.size(); i++) {
@@ -229,6 +241,7 @@ public class JavaGameServer extends JFrame {
 				if (user != this && user.UserStatus == "O")
 					user.WriteOne(str);
 			}
+			
 		}
 
 		// Windows 처럼 message 제외한 나머지 부분은 NULL 로 만들기 위한 함수
@@ -251,12 +264,40 @@ public class JavaGameServer extends JFrame {
 
 		// UserService Thread가 담당하는 Client 에게 1:1 전송
 		public void WriteOne(String msg) {
+			
 			try {
 				// dos.writeUTF(msg);
 //				byte[] bb;
 //				bb = MakePacket(msg);
 //				dos.write(bb, 0, bb.length);
 				ChatMsg obcm = new ChatMsg("SERVER", "200", msg);
+				oos.writeObject(obcm);
+			} catch (IOException e) {
+				AppendText("dos.writeObject() error");
+				try {
+//					dos.close();
+//					dis.close();
+					ois.close();
+					oos.close();
+					client_socket.close();
+					client_socket = null;
+					ois = null;
+					oos = null;
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				Logout(); // 에러가난 현재 객체를 벡터에서 지운다
+			}
+		}
+		public void WriteList(String msg) {
+			
+			try {
+				// dos.writeUTF(msg);
+//				byte[] bb;
+//				bb = MakePacket(msg);
+//				dos.write(bb, 0, bb.length);
+				ChatMsg obcm = new ChatMsg("List", "700", msg);
 				oos.writeObject(obcm);
 			} catch (IOException e) {
 				AppendText("dos.writeObject() error");
@@ -372,14 +413,18 @@ public class JavaGameServer extends JFrame {
 							Logout();
 							break;
 						} else if (args[1].matches("/list")) {
-							WriteOne("User list\n");
-							WriteOne("Name\tStatus\n");
-							WriteOne("-----------------------------\n");
+							/*
+							 * WriteOne("User list\n"); WriteOne("Name\tStatus\n");
+							 * WriteOne("-----------------------------\n"); for (int i = 0; i <
+							 * user_vc.size(); i++) { UserService user = (UserService) user_vc.elementAt(i);
+							 * WriteOne(user.UserName + "\t" + user.UserStatus + "\n"); }
+							 * WriteOne("-----------------------------\n");
+							 */
+							
 							for (int i = 0; i < user_vc.size(); i++) {
 								UserService user = (UserService) user_vc.elementAt(i);
-								WriteOne(user.UserName + "\t" + user.UserStatus + "\n");
+								WriteList(user.UserName + "\n");
 							}
-							WriteOne("-----------------------------\n");
 						} else if (args[1].matches("/sleep")) {
 							UserStatus = "S";
 						} else if (args[1].matches("/wakeup")) {
