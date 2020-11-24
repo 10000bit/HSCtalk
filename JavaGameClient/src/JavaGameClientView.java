@@ -175,20 +175,6 @@ public class JavaGameClientView extends JFrame {
 		btnNewButton.setBounds(295, 539, 69, 40);
 		contentPane.add(btnNewButton);
 
-		/*
-		 * panel = new JPanel(); panel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		 * panel.setBackground(Color.WHITE); panel.setBounds(376, 10, 400, 520);
-		 * contentPane.add(panel); gc = panel.getGraphics();
-		 */
-
-		/*
-		 * lblMouseEvent = new JLabel("<dynamic>");
-		 * lblMouseEvent.setHorizontalAlignment(SwingConstants.CENTER);
-		 * lblMouseEvent.setFont(new Font("굴림", Font.BOLD, 14));
-		 * lblMouseEvent.setBorder(new LineBorder(new Color(0, 0, 0)));
-		 * lblMouseEvent.setBackground(Color.WHITE); lblMouseEvent.setBounds(376, 539,
-		 * 400, 40); contentPane.add(lblMouseEvent);
-		 */
 		try {
 			socket = new Socket(ip_addr, Integer.parseInt(port_no));
 //			is = socket.getInputStream();
