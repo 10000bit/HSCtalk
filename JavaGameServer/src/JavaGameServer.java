@@ -22,6 +22,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
@@ -159,6 +160,7 @@ public class JavaGameServer extends JFrame {
 		private Vector user_vc;
 		public String UserName = "";
 		public String UserStatus;
+		public ArrayList<String> list = new ArrayList();
 
 		public UserService(Socket client_socket) {
 			// TODO Auto-generated constructor stub
@@ -196,23 +198,45 @@ public class JavaGameServer extends JFrame {
 			WriteOne(UserName + "님 환영합니다.\n"); // 연결된 사용자에게 정상접속을 알림
 			String msg = "[" + UserName + "]님이 입장 하였습니다.\n";
 			WriteOthers(msg); // 아직 user_vc에 새로 입장한 user는 포함되지 않았다.
+			for (int i = 0; i < user_vc.size(); i++) {
+				UserService user = (UserService) user_vc.elementAt(i);
+				if(list.contains(user.UserName)==false)
+					list.add(user.UserName);
+
+				// WriteList(user.UserName + "\n");
+			}
+
+			WriteAllList(list);
 		}
 
 		public void Logout() {
 			String msg = "[" + UserName + "]님이 퇴장 하였습니다.\n";
+			list.remove(UserName);
+			WriteAllList(list);
 			UserVec.removeElement(this); // Logout한 현재 객체를 벡터에서 지운다
 			WriteAll(msg); // 나를 제외한 다른 User들에게 전송
 			AppendText("사용자 " + "[" + UserName + "] 퇴장. 현재 참가자 수 " + UserVec.size());
+			
+		}
+
+		public void WriteAllList(ArrayList<String> list) {
+			String msg = "\n";
+			for (int i = 0; i < list.size(); i++) {
+				msg = msg + list.get(i) + "\n";
+			}
+			WriteList(msg);
 		}
 
 		// 모든 User들에게 방송. 각각의 UserService Thread의 WriteONe() 을 호출한다.
 		public void WriteAll(String str) {
+
 			for (int i = 0; i < user_vc.size(); i++) {
 				UserService user = (UserService) user_vc.elementAt(i);
 				if (user.UserStatus == "O")
 					user.WriteOne(str);
 			}
 		}
+
 		// 모든 User들에게 Object를 방송. 채팅 message와 image object를 보낼 수 있다
 		public void WriteAllObject(Object ob) {
 			for (int i = 0; i < user_vc.size(); i++) {
@@ -229,6 +253,7 @@ public class JavaGameServer extends JFrame {
 				if (user != this && user.UserStatus == "O")
 					user.WriteOne(str);
 			}
+
 		}
 
 		// Windows 처럼 message 제외한 나머지 부분은 NULL 로 만들기 위한 함수
@@ -251,12 +276,49 @@ public class JavaGameServer extends JFrame {
 
 		// UserService Thread가 담당하는 Client 에게 1:1 전송
 		public void WriteOne(String msg) {
+			
+
 			try {
 				// dos.writeUTF(msg);
 //				byte[] bb;
 //				bb = MakePacket(msg);
 //				dos.write(bb, 0, bb.length);
 				ChatMsg obcm = new ChatMsg("SERVER", "200", msg);
+				oos.writeObject(obcm);
+			} catch (IOException e) {
+				AppendText("dos.writeObject() error");
+				try {
+//					dos.close();
+//					dis.close();
+					ois.close();
+					oos.close();
+					client_socket.close();
+					client_socket = null;
+					ois = null;
+					oos = null;
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				Logout(); // 에러가난 현재 객체를 벡터에서 지운다
+			}
+			
+			for (int i = 0; i < user_vc.size(); i++) {
+				UserService user = (UserService) user_vc.elementAt(i);
+				if(list.contains(user.UserName)==false)
+					list.add(user.UserName);
+			}
+			WriteAllList(list);
+		}
+
+		public void WriteList(String msg) {
+
+			try {
+				// dos.writeUTF(msg);
+//				byte[] bb;
+//				bb = MakePacket(msg);
+//				dos.write(bb, 0, bb.length);
+				ChatMsg obcm = new ChatMsg("List", "700", msg);
 				oos.writeObject(obcm);
 			} catch (IOException e) {
 				AppendText("dos.writeObject() error");
@@ -297,19 +359,19 @@ public class JavaGameServer extends JFrame {
 				Logout(); // 에러가난 현재 객체를 벡터에서 지운다
 			}
 		}
+
 		public void WriteOneObject(Object ob) {
 			try {
-			    oos.writeObject(ob);
-			} 
-			catch (IOException e) {
-				AppendText("oos.writeObject(ob) error");		
+				oos.writeObject(ob);
+			} catch (IOException e) {
+				AppendText("oos.writeObject(ob) error");
 				try {
 					ois.close();
 					oos.close();
 					client_socket.close();
 					client_socket = null;
 					ois = null;
-					oos = null;				
+					oos = null;
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -317,7 +379,7 @@ public class JavaGameServer extends JFrame {
 				Logout();
 			}
 		}
-		
+
 		public void run() {
 			while (true) { // 사용자 접속을 계속해서 받기 위해 while문
 				try {
@@ -372,14 +434,20 @@ public class JavaGameServer extends JFrame {
 							Logout();
 							break;
 						} else if (args[1].matches("/list")) {
-							WriteOne("User list\n");
-							WriteOne("Name\tStatus\n");
-							WriteOne("-----------------------------\n");
+							/*
+							 * WriteOne("User list\n"); WriteOne("Name\tStatus\n");
+							 * WriteOne("-----------------------------\n"); for (int i = 0; i <
+							 * user_vc.size(); i++) { UserService user = (UserService) user_vc.elementAt(i);
+							 * WriteOne(user.UserName + "\t" + user.UserStatus + "\n"); }
+							 * WriteOne("-----------------------------\n");
+							 */
 							for (int i = 0; i < user_vc.size(); i++) {
 								UserService user = (UserService) user_vc.elementAt(i);
-								WriteOne(user.UserName + "\t" + user.UserStatus + "\n");
+								if(list.contains(user.UserName)==false)
+									list.add(user.UserName);
+								
 							}
-							WriteOne("-----------------------------\n");
+							WriteAllList(list);
 						} else if (args[1].matches("/sleep")) {
 							UserStatus = "S";
 						} else if (args[1].matches("/wakeup")) {
@@ -396,13 +464,13 @@ public class JavaGameServer extends JFrame {
 									}
 									// /to 빼고.. [귓속말] [user1] Hello user2..
 									user.WritePrivate(args[0] + " " + msg2 + "\n");
-									//user.WriteOne("[귓속말] " + args[0] + " " + msg2 + "\n");
+									// user.WriteOne("[귓속말] " + args[0] + " " + msg2 + "\n");
 									break;
 								}
 							}
 						} else { // 일반 채팅 메시지
 							UserStatus = "O";
-							//WriteAll(msg + "\n"); // Write All
+							// WriteAll(msg + "\n"); // Write All
 							WriteAllObject(cm);
 						}
 					} else if (cm.code.matches("400")) { // logout message 처리
@@ -410,7 +478,7 @@ public class JavaGameServer extends JFrame {
 						break;
 					} else { // 300, 500, ... 기타 object는 모두 방송한다.
 						WriteAllObject(cm);
-					} 
+					}
 				} catch (IOException e) {
 					AppendText("ois.readObject() error");
 					try {
