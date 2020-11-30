@@ -41,8 +41,8 @@ public class javaClientSetting extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 
 			Color newColor = JColorChooser.showDialog(cc,"Color Chooser",javaClientSetting.this.getBackground());
-			JavaGameClientView.textArea.setBackground(newColor);
-			JavaGameClientView.textArea.repaint();
+			JavaGameClientView.talkList.setBackground(newColor);
+			JavaGameClientView.talkList.repaint();
 		}
 		
 	}

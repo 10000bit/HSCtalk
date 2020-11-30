@@ -85,7 +85,7 @@ public class JavaGameClientView extends JFrame {
 	private JLabel notice;
 	private String noticeText;
 
-	private JList<String> talkList;
+	static JList<String> talkList;
 	private Frame frame;
 	private FileDialog fd;
 	private JButton imgBtn;
@@ -285,7 +285,7 @@ public class JavaGameClientView extends JFrame {
 
 						} else
 							AppendTalkListMsgL("[" + cm.UserName + "]");
-						AppendImage(cm.img);
+						//AppendImage(cm.img);
 						AppendTalkListImg(cm.img);
 						break;
 					case "500": // Mouse Event 수신 -> emoticon
