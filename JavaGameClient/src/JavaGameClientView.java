@@ -233,11 +233,11 @@ public class JavaGameClientView extends JFrame {
 			txtInput.requestFocus();
 			ImageSendAction action2 = new ImageSendAction();
 			imgBtn.addActionListener(action2);
-			//MyMouseEvent mouse = new MyMouseEvent();
-			// panel.addMouseMotionListener(mouse);
-			// panel.addMouseListener(mouse);
-			//MyMouseWheelEvent wheel = new MyMouseWheelEvent();
-			// panel.addMouseWheelListener(wheel);
+			MyMouseEvent mouse = new MyMouseEvent();
+			talkList.addMouseMotionListener(mouse);
+			talkList.addMouseListener(mouse);
+			MyMouseWheelEvent wheel = new MyMouseWheelEvent();
+			talkList.addMouseWheelListener(wheel);
 
 		} catch (NumberFormatException | IOException e) {
 			// TODO Auto-generated catch block
@@ -417,9 +417,9 @@ public class JavaGameClientView extends JFrame {
 			// lblMouseEvent.setText(e.getButton() + " mousePressed " + e.getX() + "," +
 			// e.getY());
 			if(e.getButton() == MouseEvent.BUTTON3) {
-				mouseRightButton rightbutton = new mouseRightButton(ori_icon);
+				bigImage imageview = new bigImage(ori_icon);
 				setVisible(true);
-				rightbutton.setVisible(true);
+				imageview.setVisible(true);
 			}
 		}
 
