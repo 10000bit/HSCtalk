@@ -31,13 +31,13 @@ public class emoticon extends JFrame {
 	
 	public emoticon() {
 		setResizable(false);
-		setBounds(500, 600, 240, 230);
+		setBounds(500, 600, 200, 200);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		emo01 = new JButton("😀");
+		emo01 = new JButton("🙂");
 		emo01.setBounds(20, 20, 50, 50);
 		contentPane.add(emo01);
 		EmoticonAction actionEmo = new EmoticonAction();
@@ -91,7 +91,7 @@ public class emoticon extends JFrame {
 		emo09.addActionListener(actionEmo);
 
 		
-		emo10 = new JButton("10");
+		emo10 = new JButton("😀");
 		emo10.setBounds(70, 120, 50, 50);
 		contentPane.add(emo10);
 		emo10.addActionListener(actionEmo);
