@@ -38,6 +38,8 @@ public class mouseRightButton extends JFrame {
 		bigImageButton.setBounds(59, 94, 146, 33);
 		contentPane.add(bigImageButton);
 		
+		
+		
 	}
 	
 	class Action implements ActionListener{
