@@ -40,7 +40,6 @@ import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Window;
 import java.awt.Color;
 import java.awt.Component;
 
@@ -96,8 +95,9 @@ public class JavaGameClientView extends JFrame {
 	private Graphics gc;
 	private int pen_size = 2; // minimum 2
 	private DefaultListModel Im;
+	
+	static ImageIcon ori_icon;
 
-	static ImageIcon new_icon;
 	/**
 	 * Create the frame.
 	 * 
@@ -196,12 +196,19 @@ public class JavaGameClientView extends JFrame {
 		talkList.setBounds(389, 10, 264, 469);
 
 		contentPane.add(talkList);
+		
+		notice = new JLabel("공지");
+		noticeText = " "; // 임의로 wow 해놓음
+		notice.setText(noticeText);
+		scrollPane.setColumnHeaderView(notice);
 
 		JScrollPane scrollPane_2 = new JScrollPane(talkList);
 		scrollPane_2.setBounds(390, 10, 265, 470);
 		contentPane.add(scrollPane_2);
 
-		
+		scrollPane_3 = new JScrollPane();
+		scrollPane_3.setBounds(0, 0, 2, 2);
+		contentPane.add(scrollPane_3);
 
 		try {
 			socket = new Socket(ip_addr, Integer.parseInt(port_no));
@@ -285,7 +292,7 @@ public class JavaGameClientView extends JFrame {
 
 						} else
 							AppendTalkListMsgL("[" + cm.UserName + "]");
-						//AppendImage(cm.img);
+						AppendImage(cm.img);
 						AppendTalkListImg(cm.img);
 						break;
 					case "500": // Mouse Event 수신 -> emoticon
@@ -381,6 +388,12 @@ public class JavaGameClientView extends JFrame {
 			gc.setColor(c);
 			gc.fillOval(e.getX() - pen_size / 2, e.getY() - pen_size / 2, pen_size, pen_size);
 			SendMouseEvent(e);
+			
+			if(e.getButton() == MouseEvent.BUTTON3) {
+				mouseRightButton rightbutton = new mouseRightButton(ori_icon);
+				setVisible(true);
+				rightbutton.setVisible(true);
+			}
 		}
 
 		@Override
@@ -403,7 +416,11 @@ public class JavaGameClientView extends JFrame {
 		public void mousePressed(MouseEvent e) {
 			// lblMouseEvent.setText(e.getButton() + " mousePressed " + e.getX() + "," +
 			// e.getY());
-
+			if(e.getButton() == MouseEvent.BUTTON3) {
+				mouseRightButton rightbutton = new mouseRightButton(ori_icon);
+				setVisible(true);
+				rightbutton.setVisible(true);
+			}
 		}
 
 		@Override
@@ -456,6 +473,7 @@ public class JavaGameClientView extends JFrame {
 	}
 
 	ImageIcon icon1 = new ImageIcon("src/icon1.jpg");
+	private JScrollPane scrollPane_3;
 
 	public void AppendIcon(ImageIcon icon) {
 		int len = textArea.getDocument().getLength();
@@ -488,7 +506,8 @@ public class JavaGameClientView extends JFrame {
 	public void AppendTalkListImg(ImageIcon ori_icon) {
 		Image ori_img = ori_icon.getImage();
 		Image new_img;
-		
+		this.ori_icon = ori_icon;
+		ImageIcon new_icon;
 		int width, height;
 		double ratio;
 		width = ori_icon.getIconWidth();
@@ -541,7 +560,6 @@ public class JavaGameClientView extends JFrame {
 		 * getHorizaontalAlignment() { return RIGHT; } });
 		 */
 		int index = Im.getSize();
-		
 		//talkList(index).setForeground(Color.BLUE);
 		
 		talkList.setModel(Im);
@@ -735,4 +753,6 @@ public class JavaGameClientView extends JFrame {
 			setVisible(true);
 		}
 	}
+	
+	
 }

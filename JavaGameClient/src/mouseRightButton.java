@@ -1,6 +1,7 @@
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 
@@ -13,8 +14,9 @@ public class mouseRightButton extends JFrame {
 	private JPanel contentPane;
 	private JButton noticeButton;
 	private JButton bigImageButton;
+	private ImageIcon new_icon;
 	
-	public mouseRightButton() {
+	public mouseRightButton(ImageIcon new_icon) {
 		setResizable(false);
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 254, 321);
