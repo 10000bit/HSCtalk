@@ -202,7 +202,7 @@ public class JavaGameServer extends JFrame {
 			WriteOthers(msg); // 아직 user_vc에 새로 입장한 user는 포함되지 않았다.
 			for (int i = 0; i < user_vc.size(); i++) {
 				UserService user = (UserService) user_vc.elementAt(i);
-				if(list.contains(user.UserName)==false)
+				if (list.contains(user.UserName) == false)
 					list.add(user.UserName);
 			}
 
@@ -211,12 +211,20 @@ public class JavaGameServer extends JFrame {
 
 		public void Logout() {
 			String msg = "[" + UserName + "]님이 퇴장 하였습니다.\n";
-			list.remove(UserName);
+
+			for (int i = 0; i < UserVec.size(); i++) {
+				UserService user = (UserService) UserVec.elementAt(i);
+
+				user.list.remove(UserName);
+
+			}
+
 			WriteAllList(list);
+		
 			UserVec.removeElement(this); // Logout한 현재 객체를 벡터에서 지운다
 			WriteAll(msg); // 나를 제외한 다른 User들에게 전송
 			AppendText("사용자 " + "[" + UserName + "] 퇴장. 현재 참가자 수 " + UserVec.size());
-			
+
 		}
 
 		public void WriteAllList(ArrayList<String> list) {
@@ -276,7 +284,7 @@ public class JavaGameServer extends JFrame {
 
 		// UserService Thread가 담당하는 Client 에게 1:1 전송
 		public void WriteOne(String msg) {
-			
+
 			try {
 				// dos.writeUTF(msg);
 //				byte[] bb;
@@ -301,10 +309,10 @@ public class JavaGameServer extends JFrame {
 				}
 				Logout(); // 에러가난 현재 객체를 벡터에서 지운다
 			}
-			
+
 			for (int i = 0; i < user_vc.size(); i++) {
 				UserService user = (UserService) user_vc.elementAt(i);
-				if(list.contains(user.UserName)==false)
+				if (list.contains(user.UserName) == false)
 					list.add(user.UserName);
 			}
 			WriteAllList(list);
@@ -442,9 +450,9 @@ public class JavaGameServer extends JFrame {
 							 */
 							for (int i = 0; i < user_vc.size(); i++) {
 								UserService user = (UserService) user_vc.elementAt(i);
-								if(list.contains(user.UserName)==false)
+								if (list.contains(user.UserName) == false)
 									list.add(user.UserName);
-								
+
 							}
 							WriteAllList(list);
 						} else if (args[1].matches("/sleep")) {
