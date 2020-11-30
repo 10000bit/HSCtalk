@@ -57,42 +57,6 @@ public class JavaGameClientMain extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		
-		
-		/*
-		JLabel lblNewLabel = new JLabel("User Name");
-		lblNewLabel.setBounds(12, 39, 82, 33);
-		contentPane.add(lblNewLabel);
-		
-		txtUserName = new JTextField();
-		txtUserName.setHorizontalAlignment(SwingConstants.CENTER);
-		txtUserName.setBounds(101, 39, 116, 33);
-		contentPane.add(txtUserName);
-		txtUserName.setColumns(10);
-		
-		JLabel lblIpAddress = new JLabel("IP Address");
-		lblIpAddress.setBounds(12, 100, 82, 33);
-		contentPane.add(lblIpAddress);
-		
-		txtIpAddress = new JTextField();
-		txtIpAddress.setHorizontalAlignment(SwingConstants.CENTER);
-		txtIpAddress.setText("127.0.0.1");
-		txtIpAddress.setColumns(10);
-		txtIpAddress.setBounds(101, 100, 116, 33);
-		contentPane.add(txtIpAddress);
-		
-		JLabel lblPortNumber = new JLabel("Port Number");
-		lblPortNumber.setBounds(12, 163, 82, 33);
-		contentPane.add(lblPortNumber);
-		
-		txtPortNumber = new JTextField();
-		txtPortNumber.setText("30000");
-		txtPortNumber.setHorizontalAlignment(SwingConstants.CENTER);
-		txtPortNumber.setColumns(10);
-		txtPortNumber.setBounds(101, 163, 116, 33);
-		contentPane.add(txtPortNumber);
-		*/
-		
 		star = new JButton("🌟");
 		star.setBounds(183, 57, 44, 40);
 		star.setBorderPainted(false);

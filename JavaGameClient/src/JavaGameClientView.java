@@ -72,8 +72,11 @@ public class JavaGameClientView extends JFrame {
 	private ObjectOutputStream oos;
 
 	private JLabel lblUserName;
+	private JScrollPane scrollPane;
 	static JTextPane textArea;
 	private JTextPane textList;
+	private JLabel notice;
+	private String noticeText;
 
 	private Frame frame;
 	private FileDialog fd;
@@ -100,7 +103,7 @@ public class JavaGameClientView extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JScrollPane scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
 		scrollPane.setBounds(12, 10, 266, 471);
 		contentPane.add(scrollPane);
 
@@ -108,6 +111,8 @@ public class JavaGameClientView extends JFrame {
 		textArea.setEditable(true);
 		textArea.setFont(new Font("굴림체", Font.PLAIN, 14));
 		scrollPane.setViewportView(textArea);
+		
+		
 
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(283, 70, 80, 395);
@@ -196,10 +201,10 @@ public class JavaGameClientView extends JFrame {
 			txtInput.requestFocus();
 			ImageSendAction action2 = new ImageSendAction();
 			imgBtn.addActionListener(action2);
-			MyMouseEvent mouse = new MyMouseEvent();
+			//MyMouseEvent mouse = new MyMouseEvent();
 			// panel.addMouseMotionListener(mouse);
 			// panel.addMouseListener(mouse);
-			MyMouseWheelEvent wheel = new MyMouseWheelEvent();
+			//MyMouseWheelEvent wheel = new MyMouseWheelEvent();
 			// panel.addMouseWheelListener(wheel);
 
 		} catch (NumberFormatException | IOException e) {
@@ -254,8 +259,11 @@ public class JavaGameClientView extends JFrame {
 							AppendText("[" + cm.UserName + "]");
 						AppendImage(cm.img);
 						break;
-					case "500": // Mouse Event 수신
-						DoMouseEvent(cm);
+					case "500": // Mouse Event 수신 -> emoticon
+						//DoMouseEvent(cm);
+						break;
+					case "600":	// 공지
+						SetNotice(noticeText);
 						break;
 					case "700": // list
 
@@ -316,6 +324,7 @@ public class JavaGameClientView extends JFrame {
 
 	}
 
+	
 	// Mouse Event Handler
 	class MyMouseEvent implements MouseListener, MouseMotionListener {
 		@Override
@@ -376,6 +385,7 @@ public class JavaGameClientView extends JFrame {
 
 		}
 	}
+	
 
 	// keyboard enter key 치면 서버로 전송
 	class TextSendAction implements ActionListener {
@@ -519,6 +529,15 @@ public class JavaGameClientView extends JFrame {
 		// ImageViewAction viewaction = new ImageViewAction();
 		// new_icon.addActionListener(viewaction); // 내부클래스로 액션 리스너를 상속받은 클래스로
 		// gc.drawImage(ori_img, 0, 0, panel.getWidth(), panel.getHeight(), this);
+	}
+	
+	// 공지 띄우기
+	public void SetNotice(String noticeText) {
+		notice = new JLabel("공지");
+		noticeText = "wow"; // 임의로 wow 해놓음
+		
+		notice.setText(noticeText);
+		scrollPane.setColumnHeaderView(notice);
 	}
 
 	// Windows 처럼 message 제외한 나머지 부분은 NULL 로 만들기 위한 함수
