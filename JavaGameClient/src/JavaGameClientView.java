@@ -196,15 +196,15 @@ public class JavaGameClientView extends JFrame {
 		talkList.setBounds(389, 10, 264, 469);
 
 		contentPane.add(talkList);
-		
-		notice = new JLabel("공지");
 		noticeText = " "; // 임의로 wow 해놓음
-		notice.setText(noticeText);
-		scrollPane.setColumnHeaderView(notice);
 
 		JScrollPane scrollPane_2 = new JScrollPane(talkList);
 		scrollPane_2.setBounds(390, 10, 265, 470);
 		contentPane.add(scrollPane_2);
+		
+		notice = new JLabel("공지");
+		scrollPane_2.setColumnHeaderView(notice);
+		notice.setText(noticeText);
 
 		scrollPane_3 = new JScrollPane();
 		scrollPane_3.setBounds(0, 0, 2, 2);
@@ -416,11 +416,18 @@ public class JavaGameClientView extends JFrame {
 		public void mousePressed(MouseEvent e) {
 			// lblMouseEvent.setText(e.getButton() + " mousePressed " + e.getX() + "," +
 			// e.getY());
+			//if(e.isMetaDown()) {
+				mouseRightButton rightbutton = new mouseRightButton(ori_icon);
+				setVisible(true);
+				rightbutton.setVisible(true);
+			//}
+			/*
 			if(e.getButton() == MouseEvent.BUTTON3) {
 				mouseRightButton rightbutton = new mouseRightButton(ori_icon);
 				setVisible(true);
 				rightbutton.setVisible(true);
 			}
+			*/
 		}
 
 		@Override
