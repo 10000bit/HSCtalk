@@ -30,6 +30,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -39,12 +41,17 @@ import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Color;
+import java.awt.Component;
+
 import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.JToggleButton;
+import javax.swing.ListSelectionModel;
 import javax.swing.JList;
 import java.awt.Canvas;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -75,6 +82,7 @@ public class JavaGameClientView extends JFrame {
 	static JTextPane textArea;
 	private JTextPane textList;
 
+	private JList<String> talkList;
 	private Frame frame;
 	private FileDialog fd;
 	private JButton imgBtn;
@@ -83,6 +91,7 @@ public class JavaGameClientView extends JFrame {
 	private JLabel lblMouseEvent;
 	private Graphics gc;
 	private int pen_size = 2; // minimum 2
+	private DefaultListModel Im;
 
 	/**
 	 * Create the frame.
@@ -94,7 +103,7 @@ public class JavaGameClientView extends JFrame {
 		setTitle(title);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 396, 630);
+		setBounds(100, 100, 679, 671);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -173,6 +182,22 @@ public class JavaGameClientView extends JFrame {
 		btnNewButton.setBounds(295, 539, 69, 40);
 		contentPane.add(btnNewButton);
 
+		talkList = new JList();
+		talkList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		Im = new DefaultListModel();
+		talkList.setFont(new Font("굴림체", Font.PLAIN, 14));
+		talkList.setBounds(389, 10, 264, 469);
+
+		contentPane.add(talkList);
+
+		JScrollPane scrollPane_2 = new JScrollPane(talkList);
+		scrollPane_2.setBounds(390, 10, 265, 470);
+		contentPane.add(scrollPane_2);
+
+		scrollPane_3 = new JScrollPane();
+		scrollPane_3.setBounds(0, 0, 2, 2);
+		contentPane.add(scrollPane_3);
+
 		try {
 			socket = new Socket(ip_addr, Integer.parseInt(port_no));
 //			is = socket.getInputStream();
@@ -216,9 +241,9 @@ public class JavaGameClientView extends JFrame {
 			while (true) {
 				try {
 					SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
-					Date time= new Date();
-					String time1= format.format(time);
-					
+					Date time = new Date();
+					String time1 = format.format(time);
+
 					Object obcm = null;
 					String msg = null;
 					ChatMsg cm;
@@ -236,23 +261,27 @@ public class JavaGameClientView extends JFrame {
 						msg = String.format("[%s]\n%s", cm.UserName, cm.data);
 					} else
 						continue;
-					msg=msg+"\n"+time1;
+					msg = msg + "\n" + time1;
 					switch (cm.code) {
 
 					case "200": // chat message
 
 						if (cm.UserName.equals(UserName))
-							AppendTextR(msg); // 내 메세지는 우측에
+							// AppendTextR(msg); // 내 메세지는 우측에
+							AppendTalkListMsgR(msg);
 
 						else
-							AppendText(msg);
+							AppendTalkListMsgL(msg);
+
 						break;
 					case "300": // Image 첨부
-						if (cm.UserName.equals(UserName))
-							AppendTextR("[" + cm.UserName + "]");
-						else
-							AppendText("[" + cm.UserName + "]");
+						if (cm.UserName.equals(UserName)) {
+							AppendTalkListMsgR("[" + cm.UserName + "]");
+
+						} else
+							AppendTalkListMsgL("[" + cm.UserName + "]");
 						AppendImage(cm.img);
+						AppendTalkListImg(cm.img);
 						break;
 					case "500": // Mouse Event 수신
 						DoMouseEvent(cm);
@@ -417,6 +446,7 @@ public class JavaGameClientView extends JFrame {
 	}
 
 	ImageIcon icon1 = new ImageIcon("src/icon1.jpg");
+	private JScrollPane scrollPane_3;
 
 	public void AppendIcon(ImageIcon icon) {
 		int len = textArea.getDocument().getLength();
@@ -427,8 +457,9 @@ public class JavaGameClientView extends JFrame {
 
 	// list 출력
 	public void AppendList(String msg) {
-		
-		  textList.selectAll(); textList.replaceSelection("");
+
+		textList.selectAll();
+		textList.replaceSelection("");
 
 		msg = msg.trim();
 		int len = textList.getDocument().getLength();
@@ -443,6 +474,90 @@ public class JavaGameClientView extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public void AppendTalkListImg(ImageIcon ori_icon) {
+		Image ori_img = ori_icon.getImage();
+		Image new_img;
+		ImageIcon new_icon;
+		int width, height;
+		double ratio;
+		width = ori_icon.getIconWidth();
+		height = ori_icon.getIconHeight();
+		// Image가 너무 크면 최대 가로 또는 세로 200 기준으로 축소시킨다.
+		if (width > 200 || height > 200) {
+			if (width > height) { // 가로 사진
+				ratio = (double) height / width;
+				width = 200;
+				height = (int) (width * ratio);
+			} else { // 세로 사진
+				ratio = (double) width / height;
+				height = 200;
+				width = (int) (height * ratio);
+			}
+			new_img = ori_img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+			new_icon = new ImageIcon(new_img);
+			Im.addElement(new_icon);
+		}
+
+		talkList.setModel(Im);
+
+	}
+
+	/*
+	 * talkList.addListSelectionListener(new ListSelectionListener() {
+	 * 
+	 * @Override //리스트의 항목 선택시 자동 실행되는 메소드 : 콜백메소드
+	 * 
+	 * public void valueChanged(ListSelectionEvent e) {
+	 * 
+	 * //리스트에게 선택된 항목의 인덱스번호 얻어오기
+	 * 
+	 * int index = list.getSelectedIndex();
+	 * 
+	 * for(JLabel t : imgLabels) t.setVisible(false);
+	 * 
+	 * imgLabels[index].setVisible(true);
+	 * 
+	 * }
+	 * 
+	 * });
+	 */
+
+	public void AppendTalkListMsgR(String msg) {
+		msg = msg.trim();
+		Im.addElement(msg);
+		/*
+		 * talkList.setCellRenderer(new DefaultListCellRenderer() { public int
+		 * getHorizaontalAlignment() { return RIGHT; } });
+		 */
+		int index = Im.getSize();
+		//talkList(index).setForeground(Color.BLUE);
+		
+		talkList.setModel(Im);
+		talkList.setSelectedIndex(index);
+		talkList.setSelectionForeground(Color.BLUE);
+		
+
+		talkList.setCellRenderer(new DefaultListCellRenderer() {
+			public int getHorizaontalAlignment() {
+				return RIGHT;
+			}
+		});
+
+		
+	}
+
+	public void AppendTalkListMsgL(String msg) {
+		msg = msg.trim();
+		
+		
+		
+		Im.addElement(msg);
+
+		talkList.setModel(Im);
+		talkList.setForeground(Color.BLACK);
+		talkList.setAlignmentX(LEFT_ALIGNMENT);
 	}
 
 	// 화면에 출력
@@ -477,6 +592,7 @@ public class JavaGameClientView extends JFrame {
 		StyleConstants.setAlignment(right, StyleConstants.ALIGN_RIGHT);
 		StyleConstants.setForeground(right, Color.BLUE);
 		doc.setParagraphAttributes(doc.getLength(), 1, right, false);
+
 		try {
 			doc.insertString(doc.getLength(), msg + "\n", right);
 		} catch (BadLocationException e) {
@@ -509,6 +625,7 @@ public class JavaGameClientView extends JFrame {
 			new_img = ori_img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 			new_icon = new ImageIcon(new_img);
 			textArea.insertIcon(new_icon);
+
 		} else {
 			textArea.insertIcon(ori_icon);
 			new_img = ori_img;
@@ -575,12 +692,10 @@ public class JavaGameClientView extends JFrame {
 		}
 	}
 
-	
 	public static void getTxtInput(String emo) {
 		txtInput.setText(emo);
-		
-	}
 
+	}
 
 	class Myaction implements ActionListener // 내부클래스로 액션 이벤트 처리 클래스
 	{
@@ -591,7 +706,7 @@ public class JavaGameClientView extends JFrame {
 			setting.setVisible(true);
 		}
 	}
-	
+
 	class Myaction2 implements ActionListener // 내부클래스로 액션 이벤트 처리 클래스
 	{
 		@Override
@@ -601,5 +716,4 @@ public class JavaGameClientView extends JFrame {
 			setVisible(true);
 		}
 	}
-	
 }
