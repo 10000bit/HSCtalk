@@ -12,6 +12,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 public class JavaGameClientMain extends JFrame {
 
@@ -53,6 +54,7 @@ public class JavaGameClientMain extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 400, 400);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(204, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -108,6 +110,7 @@ public class JavaGameClientMain extends JFrame {
 		contentPane.add(title);
 		
 		JButton btnConnect = new JButton("Connect");
+		btnConnect.setBackground(new Color(51, 204, 255));
 		btnConnect.setBounds(96, 288, 205, 38);
 		contentPane.add(btnConnect);
 		Myaction action = new Myaction();
