@@ -1,13 +1,16 @@
-import javax.swing.JButton;
-import javax.swing.JColorChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.Writer;
 import java.awt.Canvas;
 import java.awt.Color;
 
@@ -29,13 +32,15 @@ public class javaClientSetting extends JFrame{
 		
 		
 		JButton btn = new JButton("대화내용 내보내기");
-		btn.setBackground(new Color(0, 153, 255));
+		btn.setBackground(new Color(255, 255, 204));
 		btn.setBounds(59, 28, 146, 33);
 		contentPane.add(btn);
+		ChatTextAction chataction = new ChatTextAction();
+		btn.addActionListener(chataction);
 		
 		
 		JButton btn_1 = new JButton("채팅방 배경화면");
-		btn_1.setBackground(new Color(0, 153, 255));
+		btn_1.setBackground(new Color(255, 255, 204));
 		btn_1.setBounds(59, 94, 146, 33);
 		contentPane.add(btn_1);
 		BackgroundAction backaction = new BackgroundAction();
@@ -51,6 +56,33 @@ public class javaClientSetting extends JFrame{
 			JavaGameClientView.talkList.repaint();
 		}
 		
+	}
+	class ChatTextAction implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			ListModel model = JavaGameClientView.talkList.getModel();
+			Object o = null;
+			String txt = "hi im text";
+			for(int i=0; i<model.getSize(); i++) {
+				o = model.getElementAt(i);
+				//System.out.println(o + "\n");
+			}
+			File file = new File("C:\\text.txt");
+			if(!file.exists())
+				try {
+					file.createNewFile();
+					FileWriter fw = new FileWriter(file, true);
+					BufferedWriter bw = new BufferedWriter(fw);
+					
+					bw.write(txt);
+					bw.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					System.out.println("fail create file");
+				}
+			
+		}
 	}
 	
 }

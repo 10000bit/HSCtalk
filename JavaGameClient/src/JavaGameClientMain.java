@@ -110,7 +110,7 @@ public class JavaGameClientMain extends JFrame {
 		contentPane.add(title);
 		
 		JButton btnConnect = new JButton("Connect");
-		btnConnect.setBackground(new Color(51, 204, 255));
+		btnConnect.setBackground(new Color(255, 255, 204));
 		btnConnect.setBounds(96, 288, 205, 38);
 		contentPane.add(btnConnect);
 		Myaction action = new Myaction();

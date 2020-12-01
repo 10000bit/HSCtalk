@@ -46,6 +46,7 @@ import java.awt.Component;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.JToggleButton;
+import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.JList;
 import java.awt.Canvas;
@@ -110,6 +111,7 @@ public class JavaGameClientView extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 388, 634);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(204, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -135,6 +137,7 @@ public class JavaGameClientView extends JFrame {
 		scrollPane_1.setViewportView(textList);
 
 		btnSetting = new JButton("⚙");
+		btnSetting.setBackground(new Color(255, 255, 204));
 		btnSetting.setBounds(288, 10, 50, 50);
 		contentPane.add(btnSetting);
 		Myaction actionSetting = new Myaction();
@@ -155,6 +158,7 @@ public class JavaGameClientView extends JFrame {
 		btnEmo.addActionListener(actionEmoticon);
 
 		btnSend = new JButton("Send");
+		btnSend.setBackground(new Color(255, 255, 204));
 		btnSend.setFont(new Font("굴림", Font.PLAIN, 14));
 		btnSend.setBounds(295, 489, 69, 40);
 		contentPane.add(btnSend);
@@ -173,11 +177,13 @@ public class JavaGameClientView extends JFrame {
 		lblUserName.setText(username);
 
 		imgBtn = new JButton("+");
+		imgBtn.setBackground(new Color(255, 255, 204));
 		imgBtn.setFont(new Font("굴림", Font.PLAIN, 16));
 		imgBtn.setBounds(12, 489, 50, 40);
 		contentPane.add(imgBtn);
 
 		JButton btnNewButton = new JButton("종 료");
+		btnNewButton.setBackground(new Color(255, 255, 204));
 		btnNewButton.setFont(new Font("굴림", Font.PLAIN, 14));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -194,6 +200,7 @@ public class JavaGameClientView extends JFrame {
 		Im = new DefaultListModel();
 		talkList.setFont(new Font("굴림체", Font.PLAIN, 14));
 		talkList.setBounds(389, 10, 264, 469);
+		
 
 		contentPane.add(talkList);
 		noticeText = " "; // 임의로 wow 해놓음
@@ -203,6 +210,7 @@ public class JavaGameClientView extends JFrame {
 		contentPane.add(scrollPane_2);
 		
 		notice = new JLabel("공지");
+		notice.setBackground(new Color(255, 255, 0));
 		scrollPane_2.setColumnHeaderView(notice);
 		notice.setText(noticeText);
 
