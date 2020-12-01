@@ -25,6 +25,7 @@ import java.util.Date;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -40,6 +41,8 @@ import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
 import java.awt.Color;
 import java.awt.Component;
 
@@ -48,6 +51,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.JToggleButton;
 import javax.swing.ListSelectionModel;
 import javax.swing.JList;
+import javax.swing.JMenuItem;
+
 import java.awt.Canvas;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
@@ -83,7 +88,10 @@ public class JavaGameClientView extends JFrame {
 	static JTextPane textArea;
 	private JTextPane textList;
 	private JLabel notice;
-	private String noticeText;
+	
+	
+
+	private JPopupMenu popup;
 
 	static JList<String> talkList;
 	private Frame frame;
@@ -95,7 +103,7 @@ public class JavaGameClientView extends JFrame {
 	private Graphics gc;
 	private int pen_size = 2; // minimum 2
 	private DefaultListModel Im;
-	
+
 	static ImageIcon ori_icon;
 
 	/**
@@ -115,15 +123,13 @@ public class JavaGameClientView extends JFrame {
 		contentPane.setLayout(null);
 
 		scrollPane = new JScrollPane();
-		//scrollPane.setBounds(12, 10, 266, 471);
+		// scrollPane.setBounds(12, 10, 266, 471);
 		contentPane.add(scrollPane);
 
 		textArea = new JTextPane();
 		textArea.setEditable(true);
 		textArea.setFont(new Font("굴림체", Font.PLAIN, 14));
-		//scrollPane.setViewportView(textArea);
-		
-		
+		// scrollPane.setViewportView(textArea);
 
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(283, 70, 80, 395);
@@ -141,12 +147,12 @@ public class JavaGameClientView extends JFrame {
 		btnSetting.addActionListener(actionSetting);
 
 		txtInput = new JTextField();
-		txtInput.setBounds(74, 489, 180, 40);
+		txtInput.setBounds(74, 507, 180, 40);
 		contentPane.add(txtInput);
 		txtInput.setColumns(10);
 
 		btnEmo = new JButton("🙂");
-		btnEmo.setBounds(245, 489, 50, 40);
+		btnEmo.setBounds(249, 506, 50, 40);
 		btnEmo.setBorderPainted(false);
 		btnEmo.setContentAreaFilled(false);
 		// btnEmo.setFocusPainted(false);
@@ -156,7 +162,7 @@ public class JavaGameClientView extends JFrame {
 
 		btnSend = new JButton("Send");
 		btnSend.setFont(new Font("굴림", Font.PLAIN, 14));
-		btnSend.setBounds(295, 489, 69, 40);
+		btnSend.setBounds(294, 506, 69, 40);
 		contentPane.add(btnSend);
 
 		lblUserName = new JLabel("Name");
@@ -164,7 +170,7 @@ public class JavaGameClientView extends JFrame {
 		lblUserName.setBackground(Color.WHITE);
 		lblUserName.setFont(new Font("굴림", Font.BOLD, 14));
 		lblUserName.setHorizontalAlignment(SwingConstants.CENTER);
-		lblUserName.setBounds(12, 539, 62, 40);
+		lblUserName.setBounds(12, 557, 62, 40);
 		contentPane.add(lblUserName);
 		setVisible(true);
 
@@ -174,7 +180,7 @@ public class JavaGameClientView extends JFrame {
 
 		imgBtn = new JButton("+");
 		imgBtn.setFont(new Font("굴림", Font.PLAIN, 16));
-		imgBtn.setBounds(12, 489, 50, 40);
+		imgBtn.setBounds(12, 507, 50, 40);
 		contentPane.add(imgBtn);
 
 		JButton btnNewButton = new JButton("종 료");
@@ -186,7 +192,7 @@ public class JavaGameClientView extends JFrame {
 				System.exit(0);
 			}
 		});
-		btnNewButton.setBounds(295, 539, 69, 40);
+		btnNewButton.setBounds(294, 556, 69, 40);
 		contentPane.add(btnNewButton);
 
 		talkList = new JList();
@@ -196,19 +202,17 @@ public class JavaGameClientView extends JFrame {
 		talkList.setBounds(389, 10, 264, 469);
 
 		contentPane.add(talkList);
-		noticeText = " "; // 임의로 wow 해놓음
 
 		JScrollPane scrollPane_2 = new JScrollPane(talkList);
-		scrollPane_2.setBounds(12, 10, 266, 471);
+		scrollPane_2.setBounds(12, 20, 266, 471);
 		contentPane.add(scrollPane_2);
-		
-		notice = new JLabel("공지");
-		scrollPane_2.setColumnHeaderView(notice);
-		notice.setText(noticeText);
 
-		scrollPane_3 = new JScrollPane();
-		scrollPane_3.setBounds(0, 0, 2, 2);
-		contentPane.add(scrollPane_3);
+		notice = new JLabel();
+		
+		notice.setBounds(12,0,264, 17);
+		contentPane.add(notice);
+
+		
 
 		try {
 			socket = new Socket(ip_addr, Integer.parseInt(port_no));
@@ -296,10 +300,10 @@ public class JavaGameClientView extends JFrame {
 						AppendTalkListImg(cm.img);
 						break;
 					case "500": // Mouse Event 수신 -> emoticon
-						//DoMouseEvent(cm);
+						// DoMouseEvent(cm);
 						break;
-					case "600":	// 공지
-						SetNotice(noticeText);
+					case "600": // 공지
+						SetNotice(msg);
 						break;
 					case "700": // list
 
@@ -360,16 +364,16 @@ public class JavaGameClientView extends JFrame {
 
 	}
 
-	
 	// Mouse Event Handler
 	class MyMouseEvent implements MouseListener, MouseMotionListener {
 		@Override
 		public void mouseDragged(MouseEvent e) {
 			// lblMouseEvent.setText(e.getButton() + " mouseDragged " + e.getX() + "," +
 			// e.getY());// 좌표출력가능
-			Color c = new Color(0, 0, 255);
-			gc.setColor(c);
-			gc.fillOval(e.getX() - pen_size / 2, e.getY() - pen_size / 2, pen_size, pen_size);
+			/*
+			 * Color c = new Color(0, 0, 255); gc.setColor(c); gc.fillOval(e.getX() -
+			 * pen_size / 2, e.getY() - pen_size / 2, pen_size, pen_size);
+			 */
 
 			SendMouseEvent(e);
 		}
@@ -384,15 +388,24 @@ public class JavaGameClientView extends JFrame {
 		public void mouseClicked(MouseEvent e) {
 			// lblMouseEvent.setText(e.getButton() + " mouseClicked " + e.getX() + "," +
 			// e.getY());
-			Color c = new Color(0, 0, 255);
-			gc.setColor(c);
-			gc.fillOval(e.getX() - pen_size / 2, e.getY() - pen_size / 2, pen_size, pen_size);
-			SendMouseEvent(e);
-			
-			if(e.getButton() == MouseEvent.BUTTON3) {
-				mouseRightButton rightbutton = new mouseRightButton(ori_icon);
+			/*
+			 * Color c = new Color(0, 0, 255); gc.setColor(c); gc.fillOval(e.getX() -
+			 * pen_size / 2, e.getY() - pen_size / 2, pen_size, pen_size);
+			 * SendMouseEvent(e);
+			 */
+
+			if (e.getButton() == MouseEvent.BUTTON3) {
+				bigImage imageview = new bigImage(ori_icon);
 				setVisible(true);
-				//rightbutton.setVisible(true);
+				imageview.setVisible(true);
+
+			}
+			if (e.getClickCount() == 2) {
+				String noti = talkList.getSelectedValue().toString();
+				mouseRightButton right = new mouseRightButton(noti, UserName);
+				setVisible(true);
+				right.setVisible(true);
+
 			}
 		}
 
@@ -416,14 +429,13 @@ public class JavaGameClientView extends JFrame {
 		public void mousePressed(MouseEvent e) {
 			// lblMouseEvent.setText(e.getButton() + " mousePressed " + e.getX() + "," +
 			// e.getY());
-			
-			
-			if(e.getButton() == MouseEvent.BUTTON3) {
+
+			if (e.getButton() == MouseEvent.BUTTON3) {
 				bigImage imageview = new bigImage(ori_icon);
 				setVisible(true);
 				imageview.setVisible(true);
 			}
-			
+
 		}
 
 		@Override
@@ -434,7 +446,6 @@ public class JavaGameClientView extends JFrame {
 
 		}
 	}
-	
 
 	// keyboard enter key 치면 서버로 전송
 	class TextSendAction implements ActionListener {
@@ -476,7 +487,6 @@ public class JavaGameClientView extends JFrame {
 	}
 
 	ImageIcon icon1 = new ImageIcon("src/icon1.jpg");
-	private JScrollPane scrollPane_3;
 
 	public void AppendIcon(ImageIcon icon) {
 		int len = textArea.getDocument().getLength();
@@ -563,12 +573,11 @@ public class JavaGameClientView extends JFrame {
 		 * getHorizaontalAlignment() { return RIGHT; } });
 		 */
 		int index = Im.getSize();
-		//talkList(index).setForeground(Color.BLUE);
-		
+		// talkList(index).setForeground(Color.BLUE);
+
 		talkList.setModel(Im);
 		talkList.setSelectedIndex(index);
 		talkList.setSelectionForeground(Color.BLUE);
-		
 
 		talkList.setCellRenderer(new DefaultListCellRenderer() {
 			public int getHorizaontalAlignment() {
@@ -576,14 +585,11 @@ public class JavaGameClientView extends JFrame {
 			}
 		});
 
-		
 	}
 
 	public void AppendTalkListMsgL(String msg) {
 		msg = msg.trim();
-		
-		
-		
+
 		Im.addElement(msg);
 
 		talkList.setModel(Im);
@@ -668,14 +674,18 @@ public class JavaGameClientView extends JFrame {
 		// new_icon.addActionListener(viewaction); // 내부클래스로 액션 리스너를 상속받은 클래스로
 		// gc.drawImage(ori_img, 0, 0, panel.getWidth(), panel.getHeight(), this);
 	}
-	
+
 	// 공지 띄우기
 	public void SetNotice(String noticeText) {
-		notice = new JLabel("공지");
-		noticeText = "wow"; // 임의로 wow 해놓음
+		String no="";
+		String[] notiList = noticeText.split("\n");
+		 
+		for(int i=0;i<notiList.length-1;i++) {
+			no +=notiList[i];
+		}
 		
-		notice.setText(noticeText);
-		scrollPane.setColumnHeaderView(notice);
+		notice.setText(no);
+		
 	}
 
 	// Windows 처럼 message 제외한 나머지 부분은 NULL 로 만들기 위한 함수
@@ -756,6 +766,5 @@ public class JavaGameClientView extends JFrame {
 			setVisible(true);
 		}
 	}
-	
-	
+
 }
