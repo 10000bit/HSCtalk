@@ -1,8 +1,3 @@
-import javax.swing.JButton;
-import javax.swing.JColorChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import javax.swing.*;
@@ -10,6 +5,9 @@ import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Font;
@@ -28,6 +26,11 @@ public class emoticon extends JFrame {
 	private JButton emo08;
 	private JButton emo09;
 	private JButton emo10;
+	private Socket socket;
+	String ip_addr="127.0.0.1";
+	String port_no="30000";
+	private ObjectOutputStream oos;
+	private String UserName;
 	
 	public emoticon() {
 		setResizable(false);
@@ -109,12 +112,26 @@ public class emoticon extends JFrame {
 		
 	}
 	
+	
+	
 	class EmoticonAction implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JButton btn =(JButton)e.getSource();
 			JavaGameClientView.getTxtInput(btn.getText());
+			ImageIcon emoticon = new ImageIcon("src/icon1.jpg");
+			ChatMsg obcm = new ChatMsg(UserName, "300", "IMG");
+			SendObject(obcm);
 			
+		}
+		public void SendObject(Object ob) { // 서버로 메세지를 보내는 메소드
+			try {
+				oos.writeObject(ob);
+				
+			} catch (IOException e) {
+				
+				System.out.println("SendObject Error");
+			}
 		}
 		
 	}

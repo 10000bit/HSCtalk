@@ -291,7 +291,6 @@ public class JavaGameClientView extends JFrame {
 					} else
 						continue;
 
-
 					msg = msg + "\n" + time1 + "\n";
 
 					switch (cm.code) {
@@ -312,12 +311,9 @@ public class JavaGameClientView extends JFrame {
 
 						} else
 							AppendTalkListMsgL("[" + cm.UserName + "]");
-						AppendImage(cm.img);
 						AppendTalkListImg(cm.img);
 						break;
-					case "500": // Mouse Event 수신 -> emoticon
-						// DoMouseEvent(cm);
-						break;
+					
 					case "600": // 공지
 						SetNotice(msg);
 						break;
