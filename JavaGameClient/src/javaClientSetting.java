@@ -19,7 +19,7 @@ public class javaClientSetting extends JFrame{
 	private JColorChooser cc;
 	
 	public javaClientSetting() {
-		setTitle("ï¿½ï¿½ï¿½ï¿½");
+		setTitle("¼³Á¤");
 		
 		setResizable(false);
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,7 +31,7 @@ public class javaClientSetting extends JFrame{
 		contentPane.setLayout(null);
 		
 		
-		JButton btn = new JButton("ï¿½ï¿½È­ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+		JButton btn = new JButton("´ëÈ­³»¿ë ³»º¸³»±â");
 		btn.setBackground(new Color(255, 255, 204));
 		btn.setBounds(59, 28, 146, 33);
 		contentPane.add(btn);
@@ -39,7 +39,7 @@ public class javaClientSetting extends JFrame{
 		btn.addActionListener(chataction);
 		
 		
-		JButton btn_1 = new JButton("Ã¤ï¿½Ã¹ï¿½ ï¿½ï¿½ï¿½È­ï¿½ï¿½");
+		JButton btn_1 = new JButton("Ã¤ÆÃ¹æ ¹è°æ»ö º¯°æ");
 		btn_1.setBackground(new Color(255, 255, 204));
 		btn_1.setBounds(59, 94, 146, 33);
 		contentPane.add(btn_1);
@@ -66,7 +66,7 @@ public class javaClientSetting extends JFrame{
 				File file = new File("text.txt");
 				try {
 					file.createNewFile();
-					FileWriter fw = new FileWriter(file);
+					FileWriter fw = new FileWriter(file, true);
 					//FileWriter fw = new FileWriter(file, true);
 					BufferedWriter bw = new BufferedWriter(fw);
 					
