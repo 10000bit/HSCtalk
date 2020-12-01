@@ -313,12 +313,14 @@ public class JavaGameClientView extends JFrame {
 							AppendTalkListMsgL("[" + cm.UserName + "]");
 						AppendTalkListImg(cm.img);
 						break;
+					case "500": //emoticon
+						//AppendTalkListImg(cm.img);
+						break;
 					
 					case "600": // 공지
 						SetNotice(msg);
 						break;
 					case "700": // list
-
 						AppendList(msg);
 						break;
 					}
@@ -351,12 +353,13 @@ public class JavaGameClientView extends JFrame {
 		gc.fillOval(cm.mouse_e.getX() - pen_size / 2, cm.mouse_e.getY() - cm.pen_size / 2, cm.pen_size, cm.pen_size);
 	}
 
-	public void SendMouseEvent(MouseEvent e) {
-		ChatMsg cm = new ChatMsg(UserName, "500", "MOUSE");
-		cm.mouse_e = e;
-		cm.pen_size = pen_size;
-		SendObject(cm);
-	}
+	/*
+	 * public void SendMouseEvent(MouseEvent e) { ChatMsg cm = new ChatMsg(UserName,
+	 * "500", "MOUSE"); cm.mouse_e = e; cm.pen_size = pen_size; SendObject(cm);
+	 * 
+	 * }
+	 */
+	
 
 	class MyMouseWheelEvent implements MouseWheelListener {
 		@Override
@@ -387,7 +390,7 @@ public class JavaGameClientView extends JFrame {
 			 * pen_size / 2, e.getY() - pen_size / 2, pen_size, pen_size);
 			 */
 
-			SendMouseEvent(e);
+			//SendMouseEvent(e);
 		}
 
 		@Override
@@ -500,7 +503,7 @@ public class JavaGameClientView extends JFrame {
 
 	ImageIcon icon1 = new ImageIcon("src/icon1.jpg");
 
-	public void AppendIcon(ImageIcon icon) {
+	public synchronized void AppendIcon(ImageIcon icon) {
 		int len = textArea.getDocument().getLength();
 		// 끝으로 이동
 		textArea.setCaretPosition(len);
@@ -508,7 +511,7 @@ public class JavaGameClientView extends JFrame {
 	}
 
 	// list 출력
-	public void AppendList(String msg) {
+	public synchronized void AppendList(String msg) {
 
 		textList.selectAll();
 		textList.replaceSelection("");
@@ -528,7 +531,7 @@ public class JavaGameClientView extends JFrame {
 		}
 	}
 
-	public void AppendTalkListImg(ImageIcon ori_icon) {
+	public synchronized void AppendTalkListImg(ImageIcon ori_icon) {
 		Image ori_img = ori_icon.getImage();
 		Image new_img;
 		this.ori_icon = ori_icon;
@@ -577,7 +580,7 @@ public class JavaGameClientView extends JFrame {
 	 * });
 	 */
 
-	public void AppendTalkListMsgR(String msg) {
+	public synchronized void AppendTalkListMsgR(String msg) {
 		msg = msg.trim();
 		Im.addElement(msg);
 		/*
@@ -599,7 +602,7 @@ public class JavaGameClientView extends JFrame {
 
 	}
 
-	public void AppendTalkListMsgL(String msg) {
+	public synchronized void AppendTalkListMsgL(String msg) {
 		msg = msg.trim();
 
 		Im.addElement(msg);
@@ -610,7 +613,7 @@ public class JavaGameClientView extends JFrame {
 	}
 
 	// 화면에 출력
-	public void AppendText(String msg) {
+	public synchronized void AppendText(String msg) {
 		// textArea.append(msg + "\n");
 		// AppendIcon(icon1);
 		msg = msg.trim(); // 앞뒤 blank와 \n을 제거한다.
@@ -634,7 +637,7 @@ public class JavaGameClientView extends JFrame {
 	}
 
 	// 화면 우측에 출력
-	public void AppendTextR(String msg) {
+	public synchronized void AppendTextR(String msg) {
 		msg = msg.trim(); // 앞뒤 blank와 \n을 제거한다.
 		StyledDocument doc = textArea.getStyledDocument();
 		SimpleAttributeSet right = new SimpleAttributeSet();
@@ -650,7 +653,7 @@ public class JavaGameClientView extends JFrame {
 		}
 	}
 
-	public void AppendImage(ImageIcon ori_icon) {
+	public synchronized void AppendImage(ImageIcon ori_icon) {
 		int len = textArea.getDocument().getLength();
 		textArea.setCaretPosition(len); // place caret at the end (with no selection)
 		Image ori_img = ori_icon.getImage();
@@ -720,7 +723,7 @@ public class JavaGameClientView extends JFrame {
 	}
 
 	// Server에게 network으로 전송
-	public void SendMessage(String msg) {
+	public synchronized void SendMessage(String msg) {
 		try {
 			// dos.writeUTF(msg);
 //			byte[] bb;
@@ -745,7 +748,7 @@ public class JavaGameClientView extends JFrame {
 		}
 	}
 
-	public void SendObject(Object ob) { // 서버로 메세지를 보내는 메소드
+	public synchronized void SendObject(Object ob) { // 서버로 메세지를 보내는 메소드
 		try {
 			oos.writeObject(ob);
 		} catch (IOException e) {
@@ -773,7 +776,7 @@ public class JavaGameClientView extends JFrame {
 	{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			emoticon emo = new emoticon();
+			emoticon emo = new emoticon(UserName);
 			emo.setVisible(true);
 			setVisible(true);
 		}

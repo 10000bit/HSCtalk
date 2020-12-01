@@ -133,13 +133,13 @@ public class JavaGameServer extends JFrame {
 		}
 	}
 
-	public void AppendText(String str) {
+	public synchronized void AppendText(String str) {
 		// textArea.append("사용자로부터 들어온 메세지 : " + str+"\n");
 		textArea.append(str + "\n");
 		textArea.setCaretPosition(textArea.getText().length());
 	}
 
-	public void AppendObject(ChatMsg msg) {
+	public synchronized void AppendObject(ChatMsg msg) {
 		// textArea.append("사용자로부터 들어온 object : " + str+"\n");
 		textArea.append("code = " + msg.code + "\n");
 		textArea.append("id = " + msg.UserName + "\n");
@@ -227,7 +227,7 @@ public class JavaGameServer extends JFrame {
 
 		}
 
-		public void WriteAllList(ArrayList<String> list) {
+		public  synchronized void WriteAllList(ArrayList<String> list) {
 			String msg = "\n";
 			for (int i = 0; i < list.size(); i++) {
 				msg = msg + list.get(i) + "\n";
@@ -236,7 +236,7 @@ public class JavaGameServer extends JFrame {
 		}
 
 		// 모든 User들에게 방송. 각각의 UserService Thread의 WriteONe() 을 호출한다.
-		public void WriteAll(String str) {
+		public synchronized void WriteAll(String str) {
 
 			for (int i = 0; i < user_vc.size(); i++) {
 				UserService user = (UserService) user_vc.elementAt(i);
@@ -246,7 +246,7 @@ public class JavaGameServer extends JFrame {
 		}
 
 		// 모든 User들에게 Object를 방송. 채팅 message와 image object를 보낼 수 있다
-		public void WriteAllObject(Object ob) {
+		public synchronized void WriteAllObject(Object ob) {
 			for (int i = 0; i < user_vc.size(); i++) {
 				UserService user = (UserService) user_vc.elementAt(i);
 				if (user.UserStatus == "O")
@@ -255,7 +255,7 @@ public class JavaGameServer extends JFrame {
 		}
 
 		// 나를 제외한 User들에게 방송. 각각의 UserService Thread의 WriteONe() 을 호출한다.
-		public void WriteOthers(String str) {
+		public synchronized void WriteOthers(String str) {
 			for (int i = 0; i < user_vc.size(); i++) {
 				UserService user = (UserService) user_vc.elementAt(i);
 				if (user != this && user.UserStatus == "O")
@@ -283,7 +283,7 @@ public class JavaGameServer extends JFrame {
 		}
 
 		// UserService Thread가 담당하는 Client 에게 1:1 전송
-		public void WriteOne(String msg) {
+		public synchronized void WriteOne(String msg) {
 
 			try {
 				// dos.writeUTF(msg);
@@ -318,7 +318,7 @@ public class JavaGameServer extends JFrame {
 			WriteAllList(list);
 		}
 
-		public void WriteList(String msg) {
+		public synchronized void WriteList(String msg) {
 
 			try {
 				// dos.writeUTF(msg);
@@ -347,7 +347,7 @@ public class JavaGameServer extends JFrame {
 		}
 
 		// 귓속말 전송
-		public void WritePrivate(String msg) {
+		public synchronized void WritePrivate(String msg) {
 			try {
 				ChatMsg obcm = new ChatMsg("귓속말", "200", msg);
 				oos.writeObject(obcm);
@@ -367,7 +367,7 @@ public class JavaGameServer extends JFrame {
 			}
 		}
 
-		public void WriteOneObject(Object ob) {
+		public synchronized void WriteOneObject(Object ob) {
 			try {
 				oos.writeObject(ob);
 			} catch (IOException e) {

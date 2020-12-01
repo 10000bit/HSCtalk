@@ -31,8 +31,26 @@ public class emoticon extends JFrame {
 	String port_no="30000";
 	private ObjectOutputStream oos;
 	private String UserName;
+	ImageIcon angry = new ImageIcon("emoticon/angry.png");
+	ImageIcon bigsmile = new ImageIcon("emoticon/bigsmile.png");
+	ImageIcon heart = new ImageIcon("emoticon/heart.png");
+	ImageIcon heartface = new ImageIcon("emoticon/heartface.png");
+	ImageIcon sad = new ImageIcon("emoticon/sad.png");
+	ImageIcon smile = new ImageIcon("emoticon/smile.png");
+	ImageIcon soccerball = new ImageIcon("emoticon/soccerball.png");
+	ImageIcon sosad = new ImageIcon("emoticon/sosad.png");
+	ImageIcon triheart = new ImageIcon("emoticon/triheart.png");
+
 	
-	public emoticon() {
+	public emoticon(String UserName) {
+		try {
+			socket = new Socket(ip_addr, Integer.parseInt(port_no));
+			oos = new ObjectOutputStream(socket.getOutputStream());
+			oos.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		setResizable(false);
 		setBounds(500, 600, 263, 227);
 		contentPane = new JPanel();
@@ -118,15 +136,42 @@ public class emoticon extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JButton btn =(JButton)e.getSource();
-			JavaGameClientView.getTxtInput(btn.getText());
-			ImageIcon emoticon = new ImageIcon("src/icon1.jpg");
-			ChatMsg obcm = new ChatMsg(UserName, "300", "IMG");
+			
+			ChatMsg obcm = new ChatMsg(UserName, "500", "EMO");
+			switch(btn.getText()){
+				case "😠":
+					obcm.img = angry;
+					break;
+				case "😍":
+					obcm.img = heartface;
+					break;
+				case "😭":
+					obcm.img = sosad;
+					break;
+				case "⚽":
+					obcm.img = soccerball;
+					break;
+				case "💗":
+					obcm.img = triheart;
+					break;
+				case "🙂":
+					obcm.img = smile;
+					break;
+				case "❤️":
+					obcm.img = heart;
+					break;
+				case "😀":
+					obcm.img = bigsmile;
+					break;
+			}
+			
 			SendObject(obcm);
 			
 		}
 		public void SendObject(Object ob) { // 서버로 메세지를 보내는 메소드
 			try {
 				oos.writeObject(ob);
+				System.out.println("SendObject Successful");
 				
 			} catch (IOException e) {
 				
