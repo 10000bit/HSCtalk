@@ -88,7 +88,7 @@ public class mouseRightButton extends JFrame {
 	public void SendObject(Object ob) { // 서버로 메세지를 보내는 메소드
 		try {
 			oos.writeObject(ob);
-			System.out.println("SendObject Successful");
+			
 		} catch (IOException e) {
 			
 			System.out.println("SendObject Error");
