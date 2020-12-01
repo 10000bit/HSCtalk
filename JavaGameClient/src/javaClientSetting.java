@@ -19,7 +19,7 @@ public class javaClientSetting extends JFrame{
    private JColorChooser cc;
    
    public javaClientSetting() {
-      setTitle("    ");
+      setTitle("설정");
       
       setResizable(false);
       //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -39,7 +39,7 @@ public class javaClientSetting extends JFrame{
       btn.addActionListener(chataction);
       
       
-      JButton btn_1 = new JButton("채팅방 배경색 바꾸기");
+      JButton btn_1 = new JButton("채팅방 배경색 변경");
       btn_1.setBackground(new Color(255, 255, 204));
       btn_1.setBounds(59, 94, 146, 33);
       contentPane.add(btn_1);

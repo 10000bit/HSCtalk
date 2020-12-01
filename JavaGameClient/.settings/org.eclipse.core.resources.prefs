@@ -2,4 +2,8 @@ eclipse.preferences.version=1
 encoding//src/JavaGameClientMain.java=UTF-8
 encoding//src/JavaGameClientView.java=UTF-8
 encoding//src/emoticon.java=UTF-8
+<<<<<<< HEAD
 encoding//src/javaClientSetting.java=UTF-8
+=======
+encoding/text.txt=UTF-8
+>>>>>>> branch 'master' of https://github.com/equipoida/HSCtalk
