@@ -19,7 +19,7 @@ public class javaClientSetting extends JFrame{
 	private JColorChooser cc;
 	
 	public javaClientSetting() {
-		setTitle("¼³Á¤");
+		setTitle("ï¿½ï¿½ï¿½ï¿½");
 		
 		setResizable(false);
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,7 +31,7 @@ public class javaClientSetting extends JFrame{
 		contentPane.setLayout(null);
 		
 		
-		JButton btn = new JButton("´ëÈ­³»¿ë ³»º¸³»±â");
+		JButton btn = new JButton("ï¿½ï¿½È­ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 		btn.setBackground(new Color(255, 255, 204));
 		btn.setBounds(59, 28, 146, 33);
 		contentPane.add(btn);
@@ -39,7 +39,7 @@ public class javaClientSetting extends JFrame{
 		btn.addActionListener(chataction);
 		
 		
-		JButton btn_1 = new JButton("Ã¤ÆÃ¹æ ¹è°æÈ­¸é");
+		JButton btn_1 = new JButton("Ã¤ï¿½Ã¹ï¿½ ï¿½ï¿½ï¿½È­ï¿½ï¿½");
 		btn_1.setBackground(new Color(255, 255, 204));
 		btn_1.setBounds(59, 94, 146, 33);
 		contentPane.add(btn_1);
@@ -50,7 +50,6 @@ public class javaClientSetting extends JFrame{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-
 			Color newColor = JColorChooser.showDialog(cc,"Color Chooser",javaClientSetting.this.getBackground());
 			JavaGameClientView.talkList.setBackground(newColor);
 			JavaGameClientView.talkList.repaint();
