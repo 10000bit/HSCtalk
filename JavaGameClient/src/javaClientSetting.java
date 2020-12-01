@@ -64,22 +64,21 @@ public class javaClientSetting extends JFrame{
 			Object o = null;
 			for(int i=0; i<model.getSize(); i++) {
 				o = model.getElementAt(i);
-				//System.out.println(o + "\n");
-			}
-			File file = new File("text.txt");
-			try {
-				file.createNewFile();
-				FileWriter fw = new FileWriter(file, true);
-				BufferedWriter bw = new BufferedWriter(fw);
+				File file = new File("text.txt");
+				try {
+					file.createNewFile();
+					FileWriter fw = new FileWriter(file);
+					//FileWriter fw = new FileWriter(file, true);
+					BufferedWriter bw = new BufferedWriter(fw);
 					
-					bw.write(o.toString());
+					bw.write(o.toString() + "\n\n");
 					bw.close();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 					System.out.println("fail create file");
 				}
-			
+			}
 		}
 	}
 	
