@@ -322,7 +322,6 @@ public class JavaGameClientView extends JFrame {
 						SetNotice(msg);
 						break;
 					case "700": // list
-
 						AppendList(msg);
 						break;
 					}
@@ -360,6 +359,7 @@ public class JavaGameClientView extends JFrame {
 		cm.mouse_e = e;
 		cm.pen_size = pen_size;
 		SendObject(cm);
+		
 	}
 
 	class MyMouseWheelEvent implements MouseWheelListener {
