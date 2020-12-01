@@ -31,7 +31,7 @@ public class emoticon extends JFrame {
 	
 	public emoticon() {
 		setResizable(false);
-		setBounds(500, 600, 200, 200);
+		setBounds(500, 600, 263, 227);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
