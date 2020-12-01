@@ -62,19 +62,17 @@ public class javaClientSetting extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			ListModel model = JavaGameClientView.talkList.getModel();
 			Object o = null;
-			String txt = "hi im text";
 			for(int i=0; i<model.getSize(); i++) {
 				o = model.getElementAt(i);
 				//System.out.println(o + "\n");
 			}
-			File file = new File("C:\\text.txt");
-			if(!file.exists())
-				try {
-					file.createNewFile();
-					FileWriter fw = new FileWriter(file, true);
-					BufferedWriter bw = new BufferedWriter(fw);
+			File file = new File("text.txt");
+			try {
+				file.createNewFile();
+				FileWriter fw = new FileWriter(file, true);
+				BufferedWriter bw = new BufferedWriter(fw);
 					
-					bw.write(txt);
+					bw.write(o.toString());
 					bw.close();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block

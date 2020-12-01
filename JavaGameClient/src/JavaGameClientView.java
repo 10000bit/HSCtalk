@@ -290,7 +290,10 @@ public class JavaGameClientView extends JFrame {
 						msg = String.format("[%s]\n%s", cm.UserName, cm.data);
 					} else
 						continue;
-					msg = msg + "\n" + time1+"\n";
+
+
+					msg = msg + "\n" + time1 + "\n";
+
 					switch (cm.code) {
 
 					case "200": // chat message
