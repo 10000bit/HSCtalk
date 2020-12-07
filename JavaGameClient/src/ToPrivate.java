@@ -63,7 +63,7 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
-public class JavaGameClientView extends JFrame {
+public class ToPrivate extends JFrame {
 	/**
 	 * 
 	 */
@@ -87,7 +87,6 @@ public class JavaGameClientView extends JFrame {
 	private JLabel lblUserName;
 	private JScrollPane scrollPane;
 	static JTextPane textArea;
-	private JTextPane textList;
 	private JLabel notice;
 	
 	
@@ -104,7 +103,7 @@ public class JavaGameClientView extends JFrame {
 	private Graphics gc;
 	private int pen_size = 2; // minimum 2
 	private DefaultListModel Im;
-
+	private String toUserName,fromUserName;
 	static ImageIcon ori_icon;
 
 	/**
@@ -113,8 +112,10 @@ public class JavaGameClientView extends JFrame {
 	 * @throws BadLocationException
 	 */
 
-	public JavaGameClientView(String username, String ip_addr, String port_no, String title) {
-		setTitle(title);
+	public ToPrivate(String toUserName, String fromUserName) {
+		this.toUserName = toUserName;
+		this.fromUserName= fromUserName;
+		setTitle(toUserName);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 388, 634);
@@ -131,16 +132,6 @@ public class JavaGameClientView extends JFrame {
 		textArea = new JTextPane();
 		textArea.setEditable(true);
 		textArea.setFont(new Font("굴림체", Font.PLAIN, 14));
-		// scrollPane.setViewportView(textArea);
-
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(283, 70, 80, 395);
-		contentPane.add(scrollPane_1);
-
-		textList = new JTextPane();
-		textList.setEditable(true);
-		textList.setFont(new Font("굴림체", Font.PLAIN, 14));
-		scrollPane_1.setViewportView(textList);
 
 		btnSetting = new JButton("⚙");
 		btnSetting.setBackground(new Color(255, 255, 204));
@@ -153,11 +144,6 @@ public class JavaGameClientView extends JFrame {
 		txtInput.setBounds(74, 507, 180, 40);
 		contentPane.add(txtInput);
 		txtInput.setColumns(10);
-		
-		ToUser = new JTextField();
-		ToUser.setBounds(86, 567, 96, 21);
-		contentPane.add(ToUser);
-		ToUser.setColumns(10);
 
 		btnEmo = new JButton("🙂");
 		btnEmo.setBounds(249, 506, 50, 40);
@@ -183,9 +169,9 @@ public class JavaGameClientView extends JFrame {
 		contentPane.add(lblUserName);
 		setVisible(true);
 
-		AppendText("User " + username + " connecting " + ip_addr + " " + port_no);
-		UserName = username;
-		lblUserName.setText(username);
+		//AppendText("User " + username + " connecting " + ip_addr + " " + port_no);
+		//UserName = username;
+		lblUserName.setText(fromUserName);
 
 		imgBtn = new JButton("+");
 		imgBtn.setBackground(new Color(255, 255, 204));
@@ -224,11 +210,6 @@ public class JavaGameClientView extends JFrame {
 		notice.setBackground(new Color(255, 255, 0));
 		contentPane.add(notice);
 		
-		JButton to = new JButton("일대일");
-		to.setBounds(191, 566, 91, 23);
-		contentPane.add(to);
-		Myaction3 actionTo = new Myaction3();
-		to.addActionListener(actionTo);
 		
 
 
@@ -239,7 +220,7 @@ public class JavaGameClientView extends JFrame {
 		
 
 		try {
-			socket = new Socket(ip_addr, Integer.parseInt(port_no));
+			socket = new Socket("127.0.0.1", Integer.parseInt("30000"));
 //			is = socket.getInputStream();
 //			dis = new DataInputStream(is);
 //			os = socket.getOutputStream();
@@ -250,8 +231,10 @@ public class JavaGameClientView extends JFrame {
 			ois = new ObjectInputStream(socket.getInputStream());
 
 			// SendMessage("/login " + UserName);
-			ChatMsg obcm = new ChatMsg(UserName, "100", "Hello");
+			ChatMsg obcm = new ChatMsg(fromUserName, "100", "Hello");
 			SendObject(obcm);
+			ChatMsg obcm1= new ChatMsg(toUserName,"100","Hello");
+			SendObject(obcm1);
 
 			ListenNetwork net = new ListenNetwork();
 			net.start();
@@ -333,7 +316,7 @@ public class JavaGameClientView extends JFrame {
 						SetNotice(msg);
 						break;
 					case "700": // list
-						AppendList(msg);
+						//AppendList(msg);
 						break;
 					}
 				} catch (IOException e) {
@@ -477,8 +460,9 @@ public class JavaGameClientView extends JFrame {
 			// Send button을 누르거나 메시지 입력하고 Enter key 치면
 			if (e.getSource() == btnSend || e.getSource() == txtInput) {
 				String msg = null;
+				
 				// msg = String.format("[%s] %s\n", UserName, txtInput.getText());
-				msg = txtInput.getText();
+				msg ="/to "+toUserName+ " "+ txtInput.getText();
 				SendMessage(msg);
 				txtInput.setText(""); // 메세지를 보내고 나면 메세지 쓰는창을 비운다.
 				txtInput.requestFocus(); // 메세지를 보내고 커서를 다시 텍스트 필드로 위치시킨다
@@ -510,7 +494,6 @@ public class JavaGameClientView extends JFrame {
 	}
 
 	ImageIcon icon1 = new ImageIcon("src/icon1.jpg");
-	private JTextField ToUser;
 	
 	public synchronized void AppendIcon(ImageIcon icon) {
 		int len = textArea.getDocument().getLength();
@@ -519,27 +502,7 @@ public class JavaGameClientView extends JFrame {
 		textArea.insertIcon(icon);
 	}
 
-	// list 출력
-	public synchronized void AppendList(String msg) {
-
-		textList.selectAll();
-		textList.replaceSelection("");
-
-		msg = msg.trim();
-		int len = textList.getDocument().getLength();
-		StyledDocument doc = textList.getStyledDocument();
-		SimpleAttributeSet left = new SimpleAttributeSet();
-		StyleConstants.setAlignment(left, StyleConstants.ALIGN_LEFT);
-		StyleConstants.setForeground(left, Color.BLACK);
-		doc.setParagraphAttributes(doc.getLength(), 1, left, false);
-		try {
-			doc.insertString(doc.getLength(), msg + "\n", left);
-		} catch (BadLocationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
+	
 	public synchronized void AppendTalkListEmo(ImageIcon ori_icon) {
 		Image ori_img = ori_icon.getImage();
 		Image new_img;
@@ -767,7 +730,7 @@ public class JavaGameClientView extends JFrame {
 //			byte[] bb;
 //			bb = MakePacket(msg);
 //			dos.write(bb, 0, bb.length);
-			ChatMsg obcm = new ChatMsg(UserName, "200", msg);
+			ChatMsg obcm = new ChatMsg(toUserName, "200", msg);
 			oos.writeObject(obcm);
 		} catch (IOException e) {
 			// AppendText("dos.write() error");
@@ -819,13 +782,5 @@ public class JavaGameClientView extends JFrame {
 			setVisible(true);
 		}
 	}
-	class Myaction3 implements ActionListener // 내부클래스로 액션 이벤트 처리 클래스
-	{
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			ToPrivate toPrivate = new ToPrivate(ToUser.getText(),lblUserName.getText());
-			toPrivate.setVisible(true);
-			setVisible(true);
-		}
-	}
+	
 }

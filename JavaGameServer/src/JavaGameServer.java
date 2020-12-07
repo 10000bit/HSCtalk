@@ -460,6 +460,8 @@ public class JavaGameServer extends JFrame {
 						} else if (args[1].matches("/wakeup")) {
 							UserStatus = "O";
 						} else if (args[1].matches("/to")) { // 庇加富
+							//ChatMsg obcm = new ChatMsg("SERVER", "200", msg);
+							
 							for (int i = 0; i < user_vc.size(); i++) {
 								UserService user = (UserService) user_vc.elementAt(i);
 								if (user.UserName.matches(args[2]) && user.UserStatus.matches("O")) {
@@ -471,7 +473,7 @@ public class JavaGameServer extends JFrame {
 									}
 									// /to 哗绊.. [庇加富] [user1] Hello user2..
 									user.WritePrivate(args[0] + " " + msg2 + "\n");
-									// user.WriteOne("[庇加富] " + args[0] + " " + msg2 + "\n");
+									//user.WriteOne("[庇加富] " + args[0] + " " + msg2 + "\n");
 									break;
 								}
 							}
