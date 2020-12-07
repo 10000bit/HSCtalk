@@ -620,11 +620,17 @@ public class JavaGameClientView extends JFrame {
 		talkList.setSelectedIndex(index);
 		talkList.setSelectionForeground(Color.BLUE);
 
+		/*
+		DefaultListCellRenderer renderer = (DefaultListCellRenderer) talkList.getCellRenderer();
+		renderer.setHorizontalAlignment(SwingConstants.RIGHT);
+		*/
+		/*
 		talkList.setCellRenderer(new DefaultListCellRenderer() {
 			public int getHorizaontalAlignment() {
 				return RIGHT;
 			}
 		});
+		*/
 
 	}
 
@@ -636,6 +642,9 @@ public class JavaGameClientView extends JFrame {
 		talkList.setModel(Im);
 		talkList.setForeground(Color.BLACK);
 		talkList.setAlignmentX(LEFT_ALIGNMENT);
+		
+		//DefaultListCellRenderer renderer = (DefaultListCellRenderer) talkList.getCellRenderer();
+		//renderer.setHorizontalAlignment(SwingConstants.LEFT);
 	}
 
 	// 화면에 출력
