@@ -314,7 +314,8 @@ public class JavaGameClientView extends JFrame {
 						AppendTalkListImg(cm.img);
 						break;
 					case "500": //emoticon
-						//AppendTalkListImg(cm.img);
+						
+						AppendTalkListEmo(cm.img);
 						break;
 					
 					case "600": // 공지
@@ -445,11 +446,7 @@ public class JavaGameClientView extends JFrame {
 			// lblMouseEvent.setText(e.getButton() + " mousePressed " + e.getX() + "," +
 			// e.getY());
 
-			if (e.getButton() == MouseEvent.BUTTON3) {
-				bigImage imageview = new bigImage(ori_icon);
-				setVisible(true);
-				imageview.setVisible(true);
-			}
+			
 
 		}
 
@@ -502,7 +499,7 @@ public class JavaGameClientView extends JFrame {
 	}
 
 	ImageIcon icon1 = new ImageIcon("src/icon1.jpg");
-
+	
 	public synchronized void AppendIcon(ImageIcon icon) {
 		int len = textArea.getDocument().getLength();
 		// 끝으로 이동
@@ -531,6 +528,35 @@ public class JavaGameClientView extends JFrame {
 		}
 	}
 
+	public synchronized void AppendTalkListEmo(ImageIcon ori_icon) {
+		Image ori_img = ori_icon.getImage();
+		Image new_img;
+		this.ori_icon = ori_icon;
+		ImageIcon new_icon;
+		int width, height;
+		double ratio;
+		width = ori_icon.getIconWidth();
+		height = ori_icon.getIconHeight();
+		// Image가 너무 크면 최대 가로 또는 세로 200 기준으로 축소시킨다.
+		if (width<200 || height <200) {
+			if (width > height) { // 가로 사진
+				ratio = (double) height / width;
+				width = 100;
+				height = (int) (width * ratio);
+			} else { // 세로 사진
+				ratio = (double) width / height;
+				height = 100;
+				width = (int) (height * ratio);
+			}
+			new_img = ori_img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+			new_icon = new ImageIcon(new_img);
+			Im.addElement(new_icon);
+		}
+
+		talkList.setModel(Im);
+
+	}
+	
 	public synchronized void AppendTalkListImg(ImageIcon ori_icon) {
 		Image ori_img = ori_icon.getImage();
 		Image new_img;

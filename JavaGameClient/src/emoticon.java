@@ -31,6 +31,7 @@ public class emoticon extends JFrame {
 	String port_no="30000";
 	private ObjectOutputStream oos;
 	private String UserName;
+	
 	ImageIcon angry = new ImageIcon("emoticon/angry.png");
 	ImageIcon bigsmile = new ImageIcon("emoticon/bigsmile.png");
 	ImageIcon heart = new ImageIcon("emoticon/heart.png");
@@ -40,6 +41,7 @@ public class emoticon extends JFrame {
 	ImageIcon soccerball = new ImageIcon("emoticon/soccerball.png");
 	ImageIcon sosad = new ImageIcon("emoticon/sosad.png");
 	ImageIcon triheart = new ImageIcon("emoticon/triheart.png");
+	ImageIcon heartfact = new ImageIcon("emoticon/heartfact.PNG");
 
 	
 	public emoticon(String UserName) {
@@ -148,6 +150,9 @@ public class emoticon extends JFrame {
 				case "😭":
 					obcm.img = sosad;
 					break;
+				case "😢":
+					obcm.img = sad;
+					break;
 				case "⚽":
 					obcm.img = soccerball;
 					break;
@@ -160,6 +165,9 @@ public class emoticon extends JFrame {
 				case "❤️":
 					obcm.img = heart;
 					break;
+				case "❣️":
+					obcm.img = heartfact;
+					break;
 				case "😀":
 					obcm.img = bigsmile;
 					break;
@@ -171,7 +179,7 @@ public class emoticon extends JFrame {
 		public void SendObject(Object ob) { // 서버로 메세지를 보내는 메소드
 			try {
 				oos.writeObject(ob);
-				System.out.println("SendObject Successful");
+				//System.out.println("SendObject Successful");
 				
 			} catch (IOException e) {
 				
