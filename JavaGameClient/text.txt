@@ -1,8 +1,0 @@
-<<<<<<< HEAD
-[SERVER]
-1님 환영합니다.
-
-18:16:24
-
-=======
->>>>>>> branch 'master' of https://github.com/equipoida/HSCtalk
