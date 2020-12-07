@@ -49,6 +49,7 @@ public class emoticon extends JFrame {
 			socket = new Socket(ip_addr, Integer.parseInt(port_no));
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			oos.flush();
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

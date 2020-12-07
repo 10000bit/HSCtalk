@@ -150,12 +150,12 @@ public class JavaGameClientView extends JFrame {
 		btnSetting.addActionListener(actionSetting);
 
 		txtInput = new JTextField();
-		txtInput.setBounds(74, 507, 180, 40);
+		txtInput.setBounds(71, 503, 180, 40);
 		contentPane.add(txtInput);
 		txtInput.setColumns(10);
 		
 		ToUser = new JTextField();
-		ToUser.setBounds(86, 567, 96, 21);
+		ToUser.setBounds(97, 567, 85, 21);
 		contentPane.add(ToUser);
 		ToUser.setColumns(10);
 
@@ -190,7 +190,7 @@ public class JavaGameClientView extends JFrame {
 		imgBtn = new JButton("+");
 		imgBtn.setBackground(new Color(255, 255, 204));
 		imgBtn.setFont(new Font("굴림", Font.PLAIN, 16));
-		imgBtn.setBounds(12, 507, 50, 40);
+		imgBtn.setBounds(12, 501, 50, 40);
 		contentPane.add(imgBtn);
 
 		JButton btnNewButton = new JButton("종 료");
@@ -224,8 +224,10 @@ public class JavaGameClientView extends JFrame {
 		notice.setBackground(new Color(255, 255, 0));
 		contentPane.add(notice);
 		
-		JButton to = new JButton("일대일");
-		to.setBounds(191, 566, 91, 23);
+		JButton to = new JButton("귓속말");
+		to.setBackground(new Color(51, 255, 153));
+		to.setForeground(new Color(0, 0, 0));
+		to.setBounds(204, 566, 78, 23);
 		contentPane.add(to);
 		Myaction3 actionTo = new Myaction3();
 		to.addActionListener(actionTo);
@@ -335,6 +337,8 @@ public class JavaGameClientView extends JFrame {
 					case "700": // list
 						AppendList(msg);
 						break;
+					case "800":
+						
 					}
 				} catch (IOException e) {
 					AppendText("ois.readObject() error");

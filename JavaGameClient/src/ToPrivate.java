@@ -71,7 +71,6 @@ public class ToPrivate extends JFrame {
 	private JPanel contentPane;
 	private static JTextField txtInput;
 	private String UserName;
-	private JButton btnSetting;
 	private JButton btnEmo;
 	private JButton btnSend;
 	private static final int BUF_LEN = 128; // Windows 처럼 BUF_LEN 을 정의
@@ -102,7 +101,7 @@ public class ToPrivate extends JFrame {
 	private JLabel lblMouseEvent;
 	private Graphics gc;
 	private int pen_size = 2; // minimum 2
-	private DefaultListModel Im;
+	private static DefaultListModel Im;
 	private String toUserName,fromUserName;
 	static ImageIcon ori_icon;
 
@@ -117,8 +116,8 @@ public class ToPrivate extends JFrame {
 		this.fromUserName= fromUserName;
 		setTitle(toUserName);
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 388, 634);
+		
+		setBounds(100, 100, 257, 468);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(204, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -133,20 +132,13 @@ public class ToPrivate extends JFrame {
 		textArea.setEditable(true);
 		textArea.setFont(new Font("굴림체", Font.PLAIN, 14));
 
-		btnSetting = new JButton("⚙");
-		btnSetting.setBackground(new Color(255, 255, 204));
-		btnSetting.setBounds(288, 10, 50, 50);
-		contentPane.add(btnSetting);
-		Myaction actionSetting = new Myaction();
-		btnSetting.addActionListener(actionSetting);
-
 		txtInput = new JTextField();
-		txtInput.setBounds(74, 507, 180, 40);
+		txtInput.setBounds(63, 332, 124, 40);
 		contentPane.add(txtInput);
 		txtInput.setColumns(10);
 
 		btnEmo = new JButton("🙂");
-		btnEmo.setBounds(249, 506, 50, 40);
+		btnEmo.setBounds(187, 331, 50, 40);
 		btnEmo.setBorderPainted(false);
 		btnEmo.setContentAreaFilled(false);
 		// btnEmo.setFocusPainted(false);
@@ -157,7 +149,7 @@ public class ToPrivate extends JFrame {
 		btnSend = new JButton("Send");
 		btnSend.setBackground(new Color(255, 255, 204));
 		btnSend.setFont(new Font("굴림", Font.PLAIN, 14));
-		btnSend.setBounds(294, 506, 69, 40);
+		btnSend.setBounds(86, 380, 69, 40);
 		contentPane.add(btnSend);
 
 		lblUserName = new JLabel("Name");
@@ -165,7 +157,7 @@ public class ToPrivate extends JFrame {
 		lblUserName.setBackground(Color.WHITE);
 		lblUserName.setFont(new Font("굴림", Font.BOLD, 14));
 		lblUserName.setHorizontalAlignment(SwingConstants.CENTER);
-		lblUserName.setBounds(12, 557, 62, 40);
+		lblUserName.setBounds(12, 380, 62, 40);
 		contentPane.add(lblUserName);
 		setVisible(true);
 
@@ -176,7 +168,7 @@ public class ToPrivate extends JFrame {
 		imgBtn = new JButton("+");
 		imgBtn.setBackground(new Color(255, 255, 204));
 		imgBtn.setFont(new Font("굴림", Font.PLAIN, 16));
-		imgBtn.setBounds(12, 507, 50, 40);
+		imgBtn.setBounds(12, 330, 50, 40);
 		contentPane.add(imgBtn);
 
 		JButton btnNewButton = new JButton("종 료");
@@ -189,20 +181,20 @@ public class ToPrivate extends JFrame {
 				System.exit(0);
 			}
 		});
-		btnNewButton.setBounds(294, 556, 69, 40);
+		btnNewButton.setBounds(167, 380, 69, 40);
 		contentPane.add(btnNewButton);
 
 		talkList = new JList();
 		talkList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		Im = new DefaultListModel();
 		talkList.setFont(new Font("굴림체", Font.PLAIN, 14));
-		talkList.setBounds(389, 10, 264, 469);
+		talkList.setBounds(1, 88, 264, 382);
 		
 
 		contentPane.add(talkList);
 
 		JScrollPane scrollPane_2 = new JScrollPane(talkList);
-		scrollPane_2.setBounds(12, 20, 266, 471);
+		scrollPane_2.setBounds(12, 20, 200, 300);
 		contentPane.add(scrollPane_2);
 
 		notice = new JLabel();
@@ -289,7 +281,7 @@ public class ToPrivate extends JFrame {
 
 					switch (cm.code) {
 
-					case "200": // chat message
+					/*case "200": // chat message
 
 						if (cm.UserName.equals(UserName))
 							// AppendTextR(msg); // 내 메세지는 우측에
@@ -318,7 +310,13 @@ public class ToPrivate extends JFrame {
 					case "700": // list
 						//AppendList(msg);
 						break;
+						*/
+						case "800":
+						AppendTalkListMsgL(msg);
+						break;
 					}
+					
+					
 				} catch (IOException e) {
 					AppendText("ois.readObject() error");
 					try {
@@ -462,6 +460,7 @@ public class ToPrivate extends JFrame {
 				String msg = null;
 				
 				// msg = String.format("[%s] %s\n", UserName, txtInput.getText());
+				AppendTalkListMsgL("["+fromUserName+"]"+txtInput.getText());
 				msg ="/to "+toUserName+ " "+ txtInput.getText();
 				SendMessage(msg);
 				txtInput.setText(""); // 메세지를 보내고 나면 메세지 쓰는창을 비운다.
@@ -603,7 +602,7 @@ public class ToPrivate extends JFrame {
 
 	}
 
-	public synchronized void AppendTalkListMsgL(String msg) {
+	public synchronized static void AppendTalkListMsgL(String msg) {
 		msg = msg.trim();
 
 		Im.addElement(msg);
@@ -730,7 +729,7 @@ public class ToPrivate extends JFrame {
 //			byte[] bb;
 //			bb = MakePacket(msg);
 //			dos.write(bb, 0, bb.length);
-			ChatMsg obcm = new ChatMsg(toUserName, "200", msg);
+			ChatMsg obcm = new ChatMsg(toUserName, "800", msg);
 			oos.writeObject(obcm);
 		} catch (IOException e) {
 			// AppendText("dos.write() error");
@@ -761,16 +760,6 @@ public class ToPrivate extends JFrame {
 	public static void getTxtInput(String emo) {
 		txtInput.setText(emo);
 
-	}
-
-	class Myaction implements ActionListener // 내부클래스로 액션 이벤트 처리 클래스
-	{
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			javaClientSetting setting = new javaClientSetting();
-			setVisible(true);
-			setting.setVisible(true);
-		}
 	}
 
 	class Myaction2 implements ActionListener // 내부클래스로 액션 이벤트 처리 클래스

@@ -487,6 +487,25 @@ public class JavaGameServer extends JFrame {
 						Logout();
 						break;
 					} 
+					else if(cm.code.matches("800")) {
+						msg = String.format("[%s] %s", cm.UserName, cm.data);
+						String[] args = msg.split(" "); // 단어들을 분리한다.
+						for (int i = 0; i < user_vc.size(); i++) {
+							UserService user = (UserService) user_vc.elementAt(i);
+							if (user.UserName.matches(args[2]) && user.UserStatus.matches("O")) {
+								String msg2 = "";
+								for (int j = 3; j < args.length; j++) {// 실제 message 부분
+									msg2 += args[j];
+									if (j < args.length - 1)
+										msg2 += " ";
+								}
+								// /to 빼고.. [귓속말] [user1] Hello user2..
+								user.WritePrivate(args[0] + " " + msg2 + "\n");
+								//user.WriteOne("[귓속말] " + args[0] + " " + msg2 + "\n");
+								break;
+							}
+						}
+					}
 					
 					else { // 300, 500,600 ... 기타 object는 모두 방송한다.
 						WriteAllObject(cm);
