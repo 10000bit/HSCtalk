@@ -460,8 +460,9 @@ public class JavaGameServer extends JFrame {
 						} else if (args[1].matches("/wakeup")) {
 							UserStatus = "O";
 						} else if (args[1].matches("/to")) { // ±Ó¼Ó¸»
+
 							//ChatMsg obcm = new ChatMsg("SERVER", "200", msg);
-							
+
 							for (int i = 0; i < user_vc.size(); i++) {
 								UserService user = (UserService) user_vc.elementAt(i);
 								if (user.UserName.matches(args[2]) && user.UserStatus.matches("O")) {
